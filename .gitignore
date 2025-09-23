@@ -9,6 +9,8 @@
 /apps/web/.next
 /apps/mobile/.expo
 /apps/mobile/web-build
+/packages/*/dist
+*.tsbuildinfo
 
 # Turbo
 .turbo

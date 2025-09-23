@@ -11,9 +11,9 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "types": ["./packages/types/src"],
-      "ui": ["./packages/ui/src"],
-      "validation": ["./packages/validation/src"]
+      "@others/types": ["./packages/types/src"],
+      "@others/ui": ["./packages/ui/src"],
+      "@others/validation": ["./packages/validation/src"]
     }
   },
   "exclude": ["node_modules", "dist"]

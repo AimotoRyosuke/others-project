@@ -1,5 +1,5 @@
 {
-  "name": "validation",
+  "name": "@others/validation",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "zod": "latest",
-    "types": "file:../types"
+    "@others/types": "file:../types"
   },
   "devDependencies": {
     "typescript": "^5"
