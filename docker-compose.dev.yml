@@ -1,0 +1,68 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: always
+    ports:
+      - "5438:5432"
+    environment:
+      - POSTGRES_DB=othersdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - others-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: web
+    ports:
+      - "3008:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:4008
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.yarn/cache
+    depends_on:
+      - api
+    networks:
+      - others-network
+    command: yarn workspace @others/web dev
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: api
+    ports:
+      - "4008:4000"
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - DATABASE_URL=postgresql://postgres:password@db:5432/othersdb
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.yarn/cache
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - others-network
+    command: yarn workspace @others/api dev
+
+volumes:
+  postgres_data:
+
+networks:
+  others-network:
+    driver: bridge

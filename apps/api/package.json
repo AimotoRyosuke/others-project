@@ -20,7 +20,13 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "type-check": "../../node_modules/.bin/tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "ts-node prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset --force"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -28,8 +34,10 @@
     "@nestjs/platform-express": "^11.0.1",
     "@others/types": "workspace:*",
     "@others/validation": "workspace:*",
+    "@prisma/client": "^6.16.2",
     "class-validator": "^0.14.2",
     "firebase-admin": "^13.5.0",
+    "prisma": "^6.16.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
@@ -37,7 +45,9 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
+    "@types/node": "^24.5.2",
     "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
   "jest": {
@@ -56,5 +66,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

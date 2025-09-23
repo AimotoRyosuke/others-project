@@ -61,20 +61,62 @@ yarn workspace @others/web add @others/types@workspace:*
 
 - Node.js 18以上
 - Yarn 4以上（推奨）
+- Docker & Docker Compose（Dockerを使用する場合）
 
-### インストール
+### ローカル開発
+
+#### 1. 通常のインストール・起動
 
 ```bash
 # Yarn Workspacesを使用
 yarn install
-```
 
-### 開発サーバーの起動
-
-```bash
 # 全アプリケーションの開発サーバーを並列起動
 yarn dev
 ```
+
+#### 2. Docker環境での起動
+
+```bash
+# 開発環境での起動（ホットリロード対応）
+./start.sh dev
+# または
+docker compose -f docker-compose.dev.yml up --build
+
+# 初回起動後、データベースのセットアップ
+./setup-db.sh
+
+# 本番環境での起動（TODO: 未実装）
+# ./start.sh prod
+```
+
+**Prismaデータベース管理:**
+```bash
+# スキーマの適用
+yarn workspace @others/api db:push
+
+# マイグレーションの作成・実行
+yarn workspace @others/api db:migrate
+
+# シードデータの投入
+yarn workspace @others/api db:seed
+
+# Prisma Studio（データベース管理GUI）
+yarn workspace @others/api db:studio
+```
+
+**Docker開発環境でのポート:**
+
+- Web (Next.js): http://localhost:3008
+- API (NestJS): http://localhost:4008  
+- Database (PostgreSQL): localhost:5438
+
+**データベース接続情報:**
+- Host: localhost
+- Port: 5438
+- Database: othersdb
+- User: postgres
+- Password: password
 
 ### ビルド
 
@@ -137,6 +179,8 @@ yarn turbo run build --filter=@others/web...
 ### バックエンド
 
 - **NestJS 11**
+- **Prisma** - データベースORM
+- **PostgreSQL 17**
 - **Firebase Admin**
 - **TypeScript 5**
 

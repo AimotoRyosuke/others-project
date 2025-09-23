@@ -1,0 +1,104 @@
+// 「他人」アプリ Prisma Schema
+// 他人のままでいい。繋がらないことが美しい。
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  firebaseUid String   @unique @map("firebase_uid")
+  ordinal     Int      @default(autoincrement())
+  nickname    String?  // null = 未設定、重複可
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  posts        Post[]
+  reactions    Reaction[]
+  privateNotes PrivateNote[]
+
+  @@map("users")
+}
+
+model Post {
+  id         String   @id @default(cuid())
+  authorId   String   @map("author_id")
+  whatPerson String   @map("what_person")
+  thoughts   String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  postEmotions PostEmotion[]
+  reactions    Reaction[]
+  privateNotes PrivateNote[]
+
+  @@index([authorId])
+  @@index([createdAt])
+  @@map("posts")
+}
+
+model Emotion {
+  id    String @id @default(cuid())
+  code  String @unique // 'happy', 'sad', 'lonely', etc.
+  label String // '嬉しい', '悲しい', '寂しい', etc.
+
+  // Relations
+  postEmotions PostEmotion[]
+
+  @@map("emotions")
+}
+
+model PostEmotion {
+  postId    String @map("post_id")
+  emotionId String @map("emotion_id")
+
+  // Relations
+  post    Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  emotion Emotion @relation(fields: [emotionId], references: [id], onDelete: Cascade)
+
+  @@id([postId, emotionId])
+  @@map("post_emotions")
+}
+
+model Reaction {
+  id        String   @id @default(cuid())
+  postId    String   @map("post_id")
+  userId    String   @map("user_id")
+  type      String   // 'like' など
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId, type])
+  @@index([postId])
+  @@index([userId])
+  @@map("reactions")
+}
+
+model PrivateNote {
+  id        String   @id @default(cuid())
+  postId    String   @map("post_id")
+  userId    String   @map("user_id")
+  body      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([userId])
+  @@map("private_notes")
+}
