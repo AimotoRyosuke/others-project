@@ -1,27 +1,29 @@
 #!/bin/bash
 
-# Prismaを使ったデータベースの初期セットアップスクリプト（Docker環境用）
+# Prismaを使ったデータベースの初期セットアップスクリプト
 
 echo "🔧 Prismaデータベースのセットアップを開始します..."
 
-# Docker環境でAPIコンテナが起動しているか確認
-if ! docker compose -f docker-compose.dev.yml ps api | grep -q "Up"; then
-    echo "❌ APIコンテナが起動していません。まず './start.sh dev' で環境を起動してください。"
-    exit 1
-fi
+# ローカル開発環境でのセットアップ（yarn workspaceコマンドを使用）
+echo "📍 ローカル開発環境でのセットアップを実行中..."
 
 # Prismaクライアントの生成
 echo "📦 Prismaクライアントを生成中..."
-docker compose -f docker-compose.dev.yml exec api sh -c "cd /app/apps/api && npx prisma generate"
+yarn workspace @others/api db:generate
 
-# データベーススキーマをプッシュ
+# データベーススキーマをプッシュ  
 echo "🗄️ データベーススキーマを適用中..."
-docker compose -f docker-compose.dev.yml exec api sh -c "cd /app/apps/api && npx prisma db push"
+yarn workspace @others/api db:push
 
-# シードデータの投入
-echo "🌱 シードデータを投入中..."
-docker compose -f docker-compose.dev.yml exec api sh -c "cd /app/apps/api && npx ts-node prisma/seed.ts"
+# シードデータが既に投入されているかチェック
+echo "🔍 既存データをチェック中..."
+if yarn workspace @others/api prisma db seed --preview-feature 2>/dev/null; then
+    echo "🌱 シードデータを投入中..."
+    yarn workspace @others/api db:seed
+else
+    echo "✅ シードデータは既に投入済みです"
+fi
 
 echo "✅ Prismaデータベースのセットアップが完了しました！"
 echo "💡 Prisma Studioでデータを確認:"
-echo "   docker compose -f docker-compose.dev.yml exec api sh -c 'cd /app/apps/api && npx prisma studio'"
+echo "   yarn workspace @others/api db:studio"

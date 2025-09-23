@@ -58,32 +58,7 @@ services:
         condition: service_healthy
     networks:
       - others-network
-    command: yarn workspace @others/api dev
-
-  # Dev Container service
-  dev:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-      target: dev
-    ports:
-      - "3008:3000"
-      - "4008:4000"
-    environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://postgres:password@db:5432/othersdb
-      - NEXT_PUBLIC_API_URL=http://localhost:4008
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.yarn/cache
-      - /app/apps/api/src/generated
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - others-network
-    command: sleep infinity
+    command: yarn workspace @others/api dev:ts
 
 volumes:
   postgres_data:

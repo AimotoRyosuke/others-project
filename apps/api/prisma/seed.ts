@@ -43,7 +43,7 @@ async function main() {
     },
   });
 
-  const user3 = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { firebaseUid: 'test-firebase-uid-3' },
     update: {},
     create: {
