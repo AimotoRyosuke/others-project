@@ -1,11 +1,11 @@
 export type EmotionCode =
-  | "happy" // 嬉しい
-  | "sad" // 悲しい
-  | "lonely" // 寂しい
-  | "fun" // 楽しい
-  | "angry" // 怒り
-  | "scary" // 怖い
-  | "amazing"; // すごい
+  | 'happy' // 嬉しい
+  | 'sad' // 悲しい
+  | 'lonely' // 寂しい
+  | 'fun' // 楽しい
+  | 'angry' // 怒り
+  | 'scary' // 怖い
+  | 'amazing'; // すごい
 
 export interface User {
   id: string;
