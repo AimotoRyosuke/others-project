@@ -1,0 +1,21 @@
+{
+  "name": "@others/utils",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint 'src/**/*.ts' --report-unused-disable-directives",
+    "lint:js-check": "eslint '**/*.{js,jsx}' --report-unused-disable-directives",
+    "dev": "tsc -b --watch"
+  },
+  "dependencies": {
+    "@others/types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
