@@ -5,6 +5,7 @@ Next.js 15ベースのWebアプリケーションです。
 ## 📖 概要
 
 Others ProjectのWebフロントエンドアプリケーションです。Next.js 15とTurbopackを使用して構築されています。
+SEO最適化するためにExpoのweb機能を使用せず、Next.jsを採用しています
 
 ## 🚀 開発
 
