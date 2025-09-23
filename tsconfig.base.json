@@ -13,7 +13,9 @@
     "paths": {
       "@others/types": ["./packages/types/src"],
       "@others/ui": ["./packages/ui/src"],
-      "@others/validation": ["./packages/validation/src"]
+      "@others/validation": ["./packages/validation/src"],
+      "@others/utils": ["./packages/utils/src"],
+      "@others/config": ["./packages/config"]
     }
   },
   "exclude": ["node_modules", "dist"]

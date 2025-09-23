@@ -63,7 +63,7 @@ npm run type-check
 
 ## 📁 構造
 
-```
+```text
 src/
 ├── app.controller.ts       # アプリケーションコントローラー
 ├── app.module.ts          # ルートモジュール

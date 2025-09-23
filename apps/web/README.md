@@ -44,7 +44,7 @@ npm run lint
 
 ## 📁 構造
 
-```
+```text
 app/
 ├── layout.tsx      # ルートレイアウト
 ├── page.tsx        # ホームページ

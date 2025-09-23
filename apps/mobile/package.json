@@ -14,8 +14,8 @@
     "clean": "expo r -c"
   },
   "dependencies": {
-    "@others/types": "file:../../packages/types",
-    "@others/validation": "file:../../packages/validation",
+    "@others/types": "workspace:*",
+    "@others/validation": "workspace:*",
     "expo": "~54.0.10",
     "expo-status-bar": "~3.0.8",
     "react": "19.1.1",

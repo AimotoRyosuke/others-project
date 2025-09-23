@@ -14,9 +14,13 @@
     "@others/types": "workspace:*",
     "@others/ui": "workspace:*",
     "@others/validation": "workspace:*",
-    "next": "15.5.3"
+    "next": "15.5.3",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
   },
   "devDependencies": {
-    "eslint-config-next": "15.5.3"
+    "eslint": "^9.36.0",
+    "eslint-config-next": "15.5.3",
+    "typescript": "^5.7.3"
   }
 }

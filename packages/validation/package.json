@@ -13,7 +13,7 @@
     "dev": "tsc -b --watch"
   },
   "dependencies": {
-    "@others/types": "file:../types",
+    "@others/types": "workspace:*",
     "zod": "latest"
   },
   "devDependencies": {

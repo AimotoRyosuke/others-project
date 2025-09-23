@@ -58,7 +58,7 @@ npm run clean
 
 ## 📁 構造
 
-```
+```text
 ├── App.js          # メインアプリケーションコンポーネント
 ├── index.js        # エントリーポイント
 ├── app.json        # Expo設定
