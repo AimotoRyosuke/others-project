@@ -25,6 +25,14 @@ const commonIgnores = [
   '*.config.ts',
   'next-env.d.ts',
   '*.tsbuildinfo',
+  // ビルド成果物のJavaScriptファイルを除外
+  '**/dist/**/*.js',
+  '**/build/**/*.js',
+  '**/.next/**/*.js',
+  '**/.expo/**/*.js',
+  '**/coverage/**/*.js',
+  // d.tsファイルも除外（TypeScript定義ファイル）
+  '**/*.d.ts',
 ];
 
 // 基本的なTypeScriptルール
@@ -43,7 +51,7 @@ const commonTypeScriptRules = {
 export const nodeConfig = [
   js.configs.recommended,
   {
-    files: ['**/*.{js,ts}'],
+    files: ['**/*.ts'], // TypeScriptファイルのみ
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -71,6 +79,19 @@ export const nodeConfig = [
       'prettier/prettier': 'error',
     },
   },
+  // JavaScript ファイルの使用を明示的に禁止
+  {
+    files: ['**/*.js', '**/*.jsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Program',
+          message: 'JavaScript files are not allowed. Please use TypeScript (.ts) instead.',
+        },
+      ],
+    },
+  },
   {
     ignores: commonIgnores,
   },
@@ -80,7 +101,7 @@ export const nodeConfig = [
 export const reactConfig = [
   js.configs.recommended,
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'], // TypeScriptファイルのみ
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -120,6 +141,19 @@ export const reactConfig = [
       'react/react-in-jsx-scope': 'off',
     },
   },
+  // JavaScript ファイルの使用を明示的に禁止
+  {
+    files: ['**/*.js', '**/*.jsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Program',
+          message: 'JavaScript files are not allowed. Please use TypeScript (.ts/.tsx) instead.',
+        },
+      ],
+    },
+  },
   {
     ignores: commonIgnores,
   },
@@ -129,7 +163,7 @@ export const reactConfig = [
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.{js,ts}'],
+    files: ['**/*.ts'], // TypeScriptファイルのみ
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -157,6 +191,19 @@ export default [
     rules: {
       ...commonTypeScriptRules,
       'prettier/prettier': 'error',
+    },
+  },
+  // JavaScript ファイルの使用を明示的に禁止
+  {
+    files: ['**/*.js', '**/*.jsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Program',
+          message: 'JavaScript files are not allowed. Please use TypeScript (.ts) instead.',
+        },
+      ],
     },
   },
   {

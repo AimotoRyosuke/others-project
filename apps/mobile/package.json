@@ -1,7 +1,7 @@
 {
   "name": "@others/mobile",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "dev": "expo start",
     "type-check": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "eslint '**/*.{ts,tsx}' --report-unused-disable-directives",
+    "lint:js-check": "eslint '**/*.{js,jsx}' --report-unused-disable-directives",
     "clean": "expo r -c"
   },
   "dependencies": {

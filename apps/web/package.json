@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "npx next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint \"**/*.{ts,tsx}\" --report-unused-disable-directives",
+    "lint:js-check": "eslint \"**/*.{js,jsx}\" --report-unused-disable-directives"
   },
   "dependencies": {
     "react": "19.1.1",

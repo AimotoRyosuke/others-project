@@ -8,7 +8,7 @@ export default [
   ...reactConfig,
   ...compat.extends('next/core-web-vitals'),
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'], // TypeScriptファイルのみ
     rules: {
       // Next.js向けルール
       'react/jsx-key': 'error',

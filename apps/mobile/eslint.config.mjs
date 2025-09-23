@@ -7,7 +7,7 @@ import typescriptParser from '@typescript-eslint/parser';
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'], // TypeScriptファイルのみ
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -16,6 +16,8 @@ export default [
         ecmaFeatures: {
           jsx: true,
         },
+        tsconfigRootDir: new URL('.', import.meta.url).pathname,
+        project: './tsconfig.json',
       },
       globals: {
         // React Native用のグローバル変数
@@ -47,8 +49,21 @@ export default [
       '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
+  // JavaScript ファイルの使用を明示的に禁止
   {
-    files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}'],
+    files: ['**/*.js', '**/*.jsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Program',
+          message: 'JavaScript files are not allowed. Please use TypeScript (.ts/.tsx) instead.',
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'], // テストファイルもTypeScriptのみ
     rules: {
       // テストファイルでは制限を緩める
       '@typescript-eslint/no-explicit-any': 'off',
