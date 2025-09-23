@@ -1,0 +1,98 @@
+# GraphQL Schema
+# NestJS GraphQL用のスキーマファイル（自動生成）
+
+type Query {
+  hello: String
+  posts: [Post!]!
+  post(id: Int!): Post
+  emotions: [Emotion!]!
+}
+
+type Mutation {
+  createPost(input: CreatePostInput!): Post!
+  updatePost(id: Int!, input: UpdatePostInput!): Post!
+  deletePost(id: Int!): Boolean!
+  createReaction(input: CreateReactionInput!): Reaction!
+  createPrivateNote(input: CreatePrivateNoteInput!): PrivateNote!
+}
+
+type Post {
+  id: Int!
+  whatPerson: String!
+  thoughts: String!
+  emotions: [Emotion!]!
+  reactions: [Reaction!]!
+  privateNotes: [PrivateNote!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Emotion {
+  id: Int!
+  label: String!
+  description: String
+  posts: [Post!]!
+}
+
+type User {
+  id: String!
+  name: String!
+  email: String!
+  posts: [Post!]!
+  reactions: [Reaction!]!
+  privateNotes: [PrivateNote!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Reaction {
+  id: Int!
+  type: ReactionType!
+  post: Post!
+  user: User!
+  createdAt: DateTime!
+}
+
+type PrivateNote {
+  id: Int!
+  content: String!
+  post: Post!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum ReactionType {
+  LIKE
+  HEART
+  LAUGH
+  SURPRISE
+  SAD
+  ANGRY
+}
+
+input CreatePostInput {
+  whatPerson: String!
+  thoughts: String!
+  emotionIds: [Int!]!
+}
+
+input UpdatePostInput {
+  whatPerson: String
+  thoughts: String
+  emotionIds: [Int!]
+}
+
+input CreateReactionInput {
+  type: ReactionType!
+  postId: Int!
+  userId: String!
+}
+
+input CreatePrivateNoteInput {
+  content: String!
+  postId: Int!
+  userId: String!
+}
+
+scalar DateTime

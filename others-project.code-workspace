@@ -1,0 +1,54 @@
+{
+  "folders": [
+    {
+      "name": "Root",
+      "path": "."
+    },
+    {
+      "name": "Web (Next.js)",
+      "path": "./apps/web"
+    },
+    {
+      "name": "API (NestJS)",  
+      "path": "./apps/api"
+    },
+    {
+      "name": "Mobile (React Native)",
+      "path": "./apps/mobile"
+    },
+    {
+      "name": "Packages",
+      "path": "./packages"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "typescript.suggest.autoImports": true,
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.next": true,
+      "**/coverage": true,
+      "**/.nyc_output": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/dist/**": true,
+      "**/.next/**": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-typescript-next",
+      "bradlc.vscode-tailwindcss",
+      "Prisma.prisma",
+      "GraphQL.vscode-graphql",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "ms-vscode.vscode-docker",
+      "ms-vscode.vscode-nest",
+      "humao.rest-client",
+      "eamodio.gitlens"
+    ]
+  }
+}

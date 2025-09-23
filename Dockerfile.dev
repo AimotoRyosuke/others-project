@@ -32,3 +32,28 @@ FROM base AS api
 WORKDIR /app
 EXPOSE 4000
 CMD ["yarn", "workspace", "@others/api", "dev"]
+
+# Dev Container stage
+FROM base AS dev
+WORKDIR /app
+
+# Install additional development tools
+RUN apk add --no-cache \
+    git \
+    openssh-client \
+    curl \
+    wget \
+    bash \
+    zsh \
+    nano \
+    vim
+
+# Install global tools
+RUN yarn global add @nestjs/cli prisma
+
+# Create non-root user
+RUN addgroup -g 1000 node && adduser -u 1000 -G node -s /bin/sh -D node
+USER node
+
+EXPOSE 3000 4000
+CMD ["sleep", "infinity"]
