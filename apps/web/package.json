@@ -4,26 +4,19 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npx next build --turbopack",
+    "build": "next build --turbopack",
     "start": "next start",
+    "type-check": "../../node_modules/.bin/tsc --noEmit",
     "lint": "eslint \"**/*.{ts,tsx}\" --report-unused-disable-directives",
     "lint:js-check": "eslint \"**/*.{js,jsx}\" --report-unused-disable-directives"
   },
   "dependencies": {
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "next": "15.5.3",
-    "@others/types": "file:../../packages/types",
-    "@others/ui": "file:../../packages/ui",
-    "@others/validation": "file:../../packages/validation"
+    "@others/types": "workspace:*",
+    "@others/ui": "workspace:*",
+    "@others/validation": "workspace:*",
+    "next": "15.5.3"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.3",
-    "@eslint/eslintrc": "^3"
+    "eslint-config-next": "15.5.3"
   }
 }

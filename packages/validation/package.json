@@ -13,8 +13,8 @@
     "dev": "tsc -b --watch"
   },
   "dependencies": {
-    "zod": "latest",
-    "@others/types": "file:../types"
+    "@others/types": "file:../types",
+    "zod": "latest"
   },
   "devDependencies": {
     "typescript": "^5"

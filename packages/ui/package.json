@@ -13,9 +13,9 @@
     "dev": "tsc -b --watch"
   },
   "dependencies": {
+    "@others/types": "file:../types",
     "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "@others/types": "file:../types"
+    "react-dom": "19.1.1"
   },
   "devDependencies": {
     "@types/react": "^19",

@@ -3,6 +3,13 @@
 /apps/*/node_modules
 /packages/*/node_modules
 
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
 # Build outputs
 /apps/*/dist
 /apps/*/build
