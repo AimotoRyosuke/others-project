@@ -1,4 +1,4 @@
-export type EmotionCode = 'happy' | 'sad' | 'lonely' | 'fun' | 'angry' | 'scary' | 'amazing';
+export type EmotionCode = "happy" | "sad" | "lonely" | "fun" | "angry" | "scary" | "amazing";
 export interface User {
     id: string;
     firebaseUid: string;

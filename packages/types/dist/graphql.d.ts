@@ -1,4 +1,4 @@
-import type { EmotionCode, Post, PrivateNote } from './domain';
+import type { EmotionCode, Post, PrivateNote } from "./domain";
 export interface PageInfo {
     endCursor?: string | null;
     hasNextPage: boolean;

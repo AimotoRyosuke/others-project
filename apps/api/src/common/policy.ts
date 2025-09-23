@@ -1,6 +1,7 @@
 const urlLike = /(https?:\/\/|www\.)\S+/i;
 const emailLike = /\b\S+@\S+\.[\w.-]+\b/;
-const phoneLike = /\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b/;
+const phoneLike =
+  /\b(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{3,4}\b/;
 export function assertPolicy(text?: string) {
   if (!text) return;
   const t = text.toLowerCase();

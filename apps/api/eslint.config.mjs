@@ -1,34 +1,49 @@
 // @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import { nodeConfig } from '../../eslint.config.mjs';
 
-export default tseslint.config(
+// NestJS固有の設定を追加
+export default [
+  ...nodeConfig,
   {
-    ignores: ['eslint.config.mjs'],
+    files: ['**/*.ts'],
+    rules: {
+      // NestJS/デコレータ関連のルール
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/interface-name-prefix': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      // デバッグ時は console.log を許可
+      'no-console': 'off',
+      // NestJSでのコンストラクタパラメータープロパティを考慮
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { 
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
+    },
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
   {
+    files: ['**/*.spec.ts', '**/*.e2e-spec.ts'],
     languageOptions: {
       globals: {
-        ...globals.node,
-        ...globals.jest,
-      },
-      sourceType: 'commonjs',
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        // Jest globals
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        jest: 'readonly',
       },
     },
-  },
-  {
     rules: {
+      // テストファイルでは any の使用を許可
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn'
     },
   },
-);
+];

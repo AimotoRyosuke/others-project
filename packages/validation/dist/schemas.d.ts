@@ -1,6 +1,6 @@
-import { z } from 'zod';
+import { z } from "zod";
 export declare const emotionCodes: readonly ["happy", "sad", "lonely", "fun", "angry", "scary", "amazing"];
-export type EmotionCode = typeof emotionCodes[number];
+export type EmotionCode = (typeof emotionCodes)[number];
 export declare const createPostSchema: z.ZodObject<{
     whatPerson: z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>, string, string>;
     thoughts: z.ZodEffects<z.ZodOptional<z.ZodString>, string | undefined, string | undefined>;
