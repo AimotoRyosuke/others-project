@@ -1,0 +1,23 @@
+{
+  "name": "others-project-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npx turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "@types/babel__generator": "^7.27.0",
+    "turbo": "latest"
+  },
+  "overrides": {
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "packageManager": "npm@11.5.1"
+}

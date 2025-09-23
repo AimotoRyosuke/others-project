@@ -1,0 +1,17 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"],
+      "types": ["../../packages/types"],
+      "validation": ["../../packages/validation"],
+      "ui": ["../../packages/ui"]
+    }
+  },
+  "references": [
+    { "path": "../../packages/types" },
+    { "path": "../../packages/validation" },
+    { "path": "../../packages/ui" }
+  ]
+}
