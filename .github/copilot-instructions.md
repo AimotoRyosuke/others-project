@@ -4,6 +4,140 @@
 
 ## 🚨 重要な開発原則
 
+### 0. パッケージマネージャー
+
+**必須**: プロジェクト全体で`yarn`を使用すること
+
+```bash
+# ✅ 正しい使用例
+yarn install
+yarn workspace @otheyarn workspace @others/api db:studio
+```
+
+### Docker環境での開発（推奨）
+
+**Docker環境セットアップ**:
+
+```bash
+# 1. 全サービス起動
+docker compose -f docker-compose.dev.yml up -d
+
+# 2. APIサービスのデータベース準備
+docker compose -f docker-compose.dev.yml exec api yarn workspace @others/api db:push
+docker compose -f docker-compose.dev.yml exec api yarn workspace @others/api db:seed
+
+# 3. Prismaスタジオ（バックグラウンド実行）
+docker compose -f docker-compose.dev.yml exec api yarn workspace @others/api db:studio &
+
+# 4. ログ確認
+docker compose -f docker-compose.dev.yml logs api --follow
+```
+
+**サービス管理**:
+
+```bash
+# サービス状態確認
+docker compose -f docker-compose.dev.yml ps
+
+# 特定サービス再起動
+docker compose -f docker-compose.dev.yml restart api
+
+# 全サービス停止
+docker compose -f docker-compose.dev.yml down
+```
+
+**🚨 Docker環境でのbuild要否ルール**:
+
+```bash
+# ✅ 再起動のみでOK（buildなし）
+# - .tsファイルの編集・削除
+# - 新しいファイルの追加
+# - 設定ファイルの変更
+# - ソースコードの修正
+docker compose -f docker-compose.dev.yml restart api
+
+# 🔨 buildが必要な場合のみ
+# - package.jsonの依存関係変更
+# - Dockerfileの変更
+# - yarn.lockの変更
+# - 初回セットアップ時
+docker compose -f docker-compose.dev.yml build api
+```
+
+**重要**: Volume mountingにより、ソースコード変更は自動反映されます。毎回buildする必要はありません。
+
+### ローカル環境での開発（代替）
+
+```bash
+yarn workspace @others/api db:push
+yarn workspace @others/api db:seed
+yarn workspace @others/api db:studio
+```
+
+### GraphQLスキーマ更新
+
+**リゾルバー変更後の必須手順（Docker環境）**:
+
+```bash
+# 1. Prismaクライアント生成
+docker compose -f docker-compose.dev.yml exec api yarn workspace @others/api db:generate
+
+# 2. APIサービス再起動（スキーマ自動生成）
+docker compose -f docker-compose.dev.yml restart api
+
+# 3. スキーマファイルはpackages/graphql-client/src/schema/に自動生成される
+
+# 4. GraphQLクライアント型定義更新（パッケージ側）
+docker compose -f docker-compose.dev.yml exec api yarn workspace @others/graphql-client build
+```
+
+**ローカル環境の場合**:
+
+```bash
+# 1. Prismaクライアント生成
+yarn workspace @others/api db:generate
+
+# 2. スキーマ自動生成（開発サーバー起動）
+yarn workspace @others/api dev
+
+# 3. GraphQLクライアント型定義更新（パッケージ側）
+yarn workspace @others/graphql-client build
+```
+
+**ディレクトリ構造**:
+
+```
+packages/graphql-client/
+├── src/
+│   ├── schema/
+│   │   └── schema.gql          # 自動生成されるGraphQLスキーマ
+│   ├── queries.ts              # GraphQLクエリ定義
+│   ├── mutations.ts            # GraphQLミューテーション定義
+│   └── types.ts                # TypeScript型定義
+```
+
+**注意事項**:
+
+- GraphQLスキーマは`@nestjs/graphql`の`autoSchemaFile`機能で自動生成
+- スキーマファイルは`packages/graphql-client/src/schema/`に配置（ルート配置禁止）
+- リゾルバー追加・変更時は必ずスキーマ更新が必要
+- Firebase環境変数が必要な場合は適切に設定してからサーバー起動
+
+---
+
+> **重要**: このルールに従わない場合、コードレビューで差し戻しとなります。rn lint
+> yarn build
+
+# ❌ 禁止
+
+npm install
+npm test
+npm run build
+
+````
+
+**理由**: Yarn Workspaceによるモノレポ管理を行っており、npm使用時に依存関係が正しく解決されない場合があります。
+
 ### 1. 共通化の徹底
 
 **ルール**: 2つ以上のアプリで使用されるコードは必ず `packages/` に配置
@@ -37,7 +171,7 @@
 
 ```bash
 yarn test && yarn lint && yarn type-check && yarn build
-```
+````
 
 ## 🧪 テスト要件
 
@@ -170,6 +304,30 @@ yarn workspace @others/api db:push
 yarn workspace @others/api db:seed
 yarn workspace @others/api db:studio
 ```
+
+### Docker環境コマンド
+
+```bash
+# サービス起動・停止
+docker compose -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.dev.yml ps
+
+# 特定サービス操作（通常はこれで十分）
+docker compose -f docker-compose.dev.yml restart api
+docker compose -f docker-compose.dev.yml logs api --follow
+
+# 🔨 依存関係変更時のみ実行
+docker compose -f docker-compose.dev.yml build api
+docker compose -f docker-compose.dev.yml build --no-cache api
+
+# Docker環境でのコマンド実行
+docker compose -f docker-compose.dev.yml exec api yarn workspace @others/api db:push
+docker compose -f docker-compose.dev.yml exec api yarn workspace @others/api db:seed
+docker compose -f docker-compose.dev.yml exec api yarn workspace @others/api db:studio
+```
+
+**注意**: ファイル変更時は上記のbuild要否ルールを参照してください。
 
 ---
 

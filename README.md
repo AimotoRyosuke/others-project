@@ -26,15 +26,15 @@ Yarn Workspaces + Turborepoを使用したmonorepo構成で、Web・Mobile・API
 
 ### 📦 共有ライブラリ (`packages/`)
 
-| パッケージ                | 役割               | 主要技術                     |
-| ------------------------- | ------------------ | ---------------------------- |
-| `@others/types`           | TypeScript型定義   | GraphQL、ドメイン型          |
-| `@others/validation`      | データ検証         | Zod                          |
-| `@others/design-tokens`   | デザインシステム   | 色、フォント、スペーシング   |
-| `@others/ui`              | UIコンポーネント   | React/React Native           |
-| `@others/graphql-client`  | GraphQLクライアント | Apollo Client                |
-| `@others/utils`           | ユーティリティ     | 共通関数・ヘルパー           |
-| `@others/config`          | 開発設定           | ESLint、Prettier、TypeScript |
+| パッケージ               | 役割                | 主要技術                     |
+| ------------------------ | ------------------- | ---------------------------- |
+| `@others/types`          | TypeScript型定義    | GraphQL、ドメイン型          |
+| `@others/validation`     | データ検証          | Zod                          |
+| `@others/design-tokens`  | デザインシステム    | 色、フォント、スペーシング   |
+| `@others/ui`             | UIコンポーネント    | React/React Native           |
+| `@others/graphql-client` | GraphQLクライアント | Apollo Client                |
+| `@others/utils`          | ユーティリティ      | 共通関数・ヘルパー           |
+| `@others/config`         | 開発設定            | ESLint、Prettier、TypeScript |
 
 ## 🛠️ 開発ルール
 
@@ -83,11 +83,13 @@ yarn workspace @others/api db:seed
 
 ### アクセスURL
 
-| サービス | URL                     | 説明                  |
-| -------- | ----------------------- | --------------------- |
-| Web      | <http://localhost:3008> | Reactアプリケーション |
-| API      | <http://localhost:4008> | GraphQL Playground    |
-| Database | `localhost:5438`        | PostgreSQL (docker)   |
+| サービス      | URL                     | 説明                   |
+| ------------- | ----------------------- | ---------------------- |
+| Web           | <http://localhost:3008> | Reactアプリケーション  |
+| API           | <http://localhost:4008> | GraphQL Playground     |
+| Database      | `localhost:5438`        | PostgreSQL (docker)    |
+| Firebase UI   | <http://localhost:6008> | Firebase Emulator UI   |
+| Firebase Auth | `localhost:7008`        | Firebase Auth Emulator |
 
 ### データベース管理
 
@@ -102,6 +104,43 @@ yarn workspace @others/api db:seed
 yarn workspace @others/api db:studio
 ```
 
+### 認証設定（開発環境）
+
+開発環境では **Firebase Auth Emulator** を使用します：
+
+#### 開発用認証トークン
+
+APIでは開発時に `dev-token` という固定トークンを使用できます：
+
+```bash
+# GraphQL Playground での認証ヘッダー例
+{
+  "Authorization": "Bearer dev-token"
+}
+```
+
+#### Firebase Emulator利用
+
+1. **エミュレーター起動** (Firebase CLIは開発用依存関係に含まれています):
+
+   ```bash
+   # Auth Emulatorのみ
+   yarn firebase:emulators
+
+   # Auth + UI Emulatorの両方
+   yarn firebase:emulators:ui
+   ```
+
+2. **エミュレーターUI**: <http://localhost:6008> でユーザー管理
+
+3. **認証が必要なAPI**:
+   - `me` - ユーザー情報取得
+   - `myPosts` - 自分の投稿一覧
+   - `myReactions` - 自分のリアクション一覧
+   - 投稿の作成・更新・削除
+   - リアクション作成・削除
+   - プライベートノート作成・更新・削除
+
 ## 🧪 開発コマンド
 
 ### 基本コマンド
@@ -109,6 +148,12 @@ yarn workspace @others/api db:studio
 ```bash
 # 開発サーバー起動
 yarn dev
+
+# Firebase Emulator付きで開発サーバー起動
+yarn dev:with-emulators
+
+# Firebase Emulatorのみ起動
+yarn firebase:emulators
 
 # 全体ビルド
 yarn build
