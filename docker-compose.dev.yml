@@ -3,7 +3,7 @@ services:
     image: postgres:17-alpine
     restart: always
     ports:
-      - '5438:5432'
+      - "5438:5432"
     environment:
       - POSTGRES_DB=othersdb
       - POSTGRES_USER=postgres
@@ -13,7 +13,7 @@ services:
     networks:
       - others-network
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -24,7 +24,7 @@ services:
       dockerfile: Dockerfile.dev
       target: web
     ports:
-      - '3008:3000'
+      - "3008:3000"
     environment:
       - NODE_ENV=development
       - VITE_API_URL=http://localhost:4008
@@ -44,7 +44,7 @@ services:
       dockerfile: Dockerfile.dev
       target: api
     ports:
-      - '4008:4000'
+      - "4008:4000"
     environment:
       - NODE_ENV=development
       - PORT=4000
@@ -58,7 +58,7 @@ services:
         condition: service_healthy
     networks:
       - others-network
-    command: yarn workspace @others/api dev:ts
+    command: yarn workspace @others/api dev
 
 volumes:
   postgres_data:
