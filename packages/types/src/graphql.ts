@@ -1,4 +1,4 @@
-import type { EmotionCode, Post, PrivateNote } from './domain';
+import type { EmotionCode, Post, PrivateNote, GraphQLPost } from './domain';
 
 export interface PageInfo {
   endCursor?: string | null;
@@ -67,3 +67,34 @@ export interface SetNicknameInput {
 export interface SetNicknameMutation {
   setNickname: Me;
 }
+
+// Input types for arguments
+export interface FeedArgs {
+  after?: string;
+  first?: number;
+  emotionsAny?: EmotionCode[];
+}
+
+export interface MyPostsArgs {
+  after?: string;
+  first?: number;
+}
+
+export interface MyReactionsArgs {
+  after?: string;
+  first?: number;
+}
+
+export interface AddNoteInput {
+  postId: string;
+  body: string;
+}
+
+export interface ReactInput {
+  postId: string;
+  type: string;
+}
+
+// GraphQL Response types using GraphQLPost
+export type PostConnection = Connection<GraphQLPost>;
+export type PostEdge = Edge<GraphQLPost>;

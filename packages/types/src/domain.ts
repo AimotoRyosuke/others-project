@@ -40,3 +40,14 @@ export interface PrivateNote {
   body: string;
   createdAt: string;
 }
+
+// GraphQL専用の拡張Post型
+export interface GraphQLPost extends Post {
+  reactionCount: number;
+  hasUserReacted: boolean;
+}
+
+// GraphQL専用のPrivateNote型（Postを含む）
+export interface GraphQLPrivateNote extends Omit<PrivateNote, 'userId'> {
+  post: GraphQLPost;
+}

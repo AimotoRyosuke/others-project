@@ -1,31 +1,29 @@
 import { gql } from '@apollo/client';
+import {
+  POST_FRAGMENT,
+  USER_FRAGMENT,
+  PRIVATE_NOTE_FRAGMENT,
+  REACTION_FRAGMENT,
+} from './fragments';
 
 // Create post mutation (認証必要)
 export const CREATE_POST_MUTATION = gql`
   mutation CreatePost($input: CreatePostInput!) {
     createPost(input: $input) {
-      id
-      whatPerson
-      thoughts
-      emotions
-      createdAt
-      updatedAt
-      reactionCount
-      hasUserReacted
+      ...PostFragment
     }
   }
+  ${POST_FRAGMENT}
 `;
 
 // React mutation (認証必要)
 export const REACT_MUTATION = gql`
   mutation React($input: ReactInput!) {
     react(input: $input) {
-      id
-      postId
-      type
-      createdAt
+      ...ReactionFragment
     }
   }
+  ${REACTION_FRAGMENT}
 `;
 
 // Unreact mutation (認証必要)
@@ -39,22 +37,10 @@ export const UNREACT_MUTATION = gql`
 export const ADD_NOTE_MUTATION = gql`
   mutation AddNote($input: AddNoteInput!) {
     addNote(input: $input) {
-      id
-      postId
-      body
-      createdAt
-      post {
-        id
-        whatPerson
-        thoughts
-        emotions
-        createdAt
-        updatedAt
-        reactionCount
-        hasUserReacted
-      }
+      ...PrivateNoteFragment
     }
   }
+  ${PRIVATE_NOTE_FRAGMENT}
 `;
 
 // Delete note mutation (認証必要)
@@ -68,10 +54,8 @@ export const DELETE_NOTE_MUTATION = gql`
 export const SET_NICKNAME_MUTATION = gql`
   mutation SetNickname($input: SetNicknameInput!) {
     setNickname(input: $input) {
-      id
-      nickname
-      ordinal
-      createdAt
+      ...UserFragment
     }
   }
+  ${USER_FRAGMENT}
 `;

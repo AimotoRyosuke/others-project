@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "@apollo/client": "^3.8.0",
+    "@others/types": "workspace:*",
     "graphql": "^16.8.0"
   },
   "devDependencies": {
@@ -28,7 +29,6 @@
     "@graphql-codegen/typescript-operations": "^4.0.0",
     "@graphql-codegen/typescript-react-apollo": "^4.0.0",
     "@others/config": "workspace:*",
-    "@others/types": "workspace:*",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.0",
     "tsup": "^8.0.0",
