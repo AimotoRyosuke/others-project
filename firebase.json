@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "demo-project"
+  },
+  "emulators": {
+    "auth": {
+      "host": "localhost",
+      "port": 7008
+    },
+    "ui": {
+      "enabled": true,
+      "host": "localhost",
+      "port": 6008
+    }
+  }
+}
