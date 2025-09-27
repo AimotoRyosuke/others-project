@@ -5,6 +5,7 @@
   "main": "./index.js",
   "files": [
     "prettier",
-    "tsconfig"
+    "tsconfig",
+    "jest"
   ]
 }

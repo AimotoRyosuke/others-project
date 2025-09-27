@@ -27,7 +27,7 @@ export default [
     },
   },
   {
-    files: ['**/*.spec.ts', '**/*.e2e-spec.ts'],
+    files: ['**/*.spec.ts', '**/*.e2e-spec.ts', '**/setupTests.ts'],
     languageOptions: {
       globals: {
         // Jest globals

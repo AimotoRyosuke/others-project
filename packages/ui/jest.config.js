@@ -11,6 +11,7 @@ module.exports = {
     'src/**/*.(ts|tsx)',
     '!src/**/*.d.ts',
     '!src/**/__tests__/**',
+    '!src/**/*.stories.*',
   ],
   coverageThreshold: {
     global: {
@@ -21,4 +22,7 @@ module.exports = {
     },
   },
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  displayName: '@others/ui',
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
 };

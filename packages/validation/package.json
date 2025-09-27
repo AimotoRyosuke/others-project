@@ -10,13 +10,17 @@
     "type-check": "tsc --noEmit",
     "lint": "eslint 'src/**/*.ts' --report-unused-disable-directives",
     "lint:js-check": "eslint '**/*.{js,jsx}' --report-unused-disable-directives",
-    "dev": "tsc -b --watch"
+    "dev": "tsc -b --watch",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@others/types": "workspace:*",
     "zod": "latest"
   },
   "devDependencies": {
+    "@types/jest": "latest",
+    "jest": "latest",
     "typescript": "^5"
   }
 }
