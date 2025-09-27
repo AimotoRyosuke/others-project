@@ -1,0 +1,30 @@
+name: GitHub Copilot Review Settings
+
+# GitHub Copilot PR Review Configuration
+copilot:
+  # レビュー言語を日本語に設定
+  review:
+    language: ja
+    locale: ja-JP
+
+  # レビューの詳細設定
+  review_settings:
+    # コメントの言語
+    comment_language: 'Japanese'
+
+    # レビューの種類
+    review_types:
+      - code_quality
+      - security
+      - performance
+      - best_practices
+      - maintainability
+
+    # 日本語でのレビューコメント形式
+    comment_style: 'polite_japanese'
+
+    # コードレビューの詳細度
+    review_depth: 'detailed'
+
+    # 日本語での説明を優先
+    explanation_language: 'ja'
