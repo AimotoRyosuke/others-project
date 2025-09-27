@@ -55,27 +55,52 @@ yarn type-check
 
 - **NestJS 11** - Node.jsフレームワーク
 - **TypeScript 5** - 型安全性
-- **Firebase Admin** - 認証・データベース
-- **Class Validator** - バリデーション
-- **RxJS** - リアクティブプログラミング
+- **GraphQL** - API クエリ言語とランタイム
+- **Prisma** - データベースORM
+- **Firebase Admin** - 認証
 - **@others/types** - 共有型定義
-- **@others/validation** - バリデーションスキーマ
+- **@others/validation** - Zodベースバリデーションスキーマ
 
 ## 📁 構造
 
 ```text
 src/
-├── app.controller.ts       # アプリケーションコントローラー
+├── app.controller.ts       # ヘルスチェック
 ├── app.module.ts          # ルートモジュール
-├── app.service.ts         # アプリケーションサービス
 ├── main.ts               # エントリーポイント
-├── auth/
-│   └── firebase.guard.ts  # Firebase認証ガード
-├── common/
-│   └── policy.ts         # 共通ポリシー
-└── posts/
-    └── dto/
-        └── create-post.dto.ts  # 投稿作成DTO
+├── config/
+│   └── graphql.config.ts  # GraphQL設定
+├── core/
+│   ├── auth/             # Firebase認証
+│   ├── common/           # 共通ユーティリティ・例外
+│   ├── graphql/          # GraphQLエンティティ・入力型
+│   └── prisma/           # データベース接続
+└── features/             # 機能別モジュール
+    ├── posts/            # 投稿機能
+    ├── users/            # ユーザー機能
+    └── notes/            # ノート機能
+```
+
+## ✅ バリデーション
+
+データバリデーションには`@others/validation`パッケージを使用しています。
+Zodスキーマベースの型安全なバリデーションを提供します。
+
+### 使用方法
+
+```typescript
+import { createPostSchema } from '@others/validation';
+import { assertPolicy } from './core/common/policy';
+
+// Zodスキーマバリデーション
+const result = createPostSchema.safeParse(input);
+if (!result.success) {
+  throw new ValidationError(result.error.message);
+}
+
+// ポリシーチェック（URL、メール、電話番号の禁止）
+assertPolicy(input.whatPerson);
+assertPolicy(input.thoughts);
 ```
 
 ## 🔐 認証
@@ -87,35 +112,42 @@ Firebase Adminを使用したJWT認証を実装しています。
 以下の環境変数が必要です：
 
 ```bash
+# データベース
+DATABASE_URL="postgresql://username:password@localhost:5432/others?schema=public"
+
 # Firebase設定
 FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_PRIVATE_KEY=your-private-key
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 FIREBASE_CLIENT_EMAIL=your-client-email
+
+# Firebase Emulator（開発環境）
+FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099
 ```
 
-## 📡 API エンドポイント
+## 📡 GraphQL API
 
-現在開発中のAPIサーバーです。
-今後、以下のようなエンドポイントが追加される予定です：
+GraphQLエンドポイント: `/graphql`
 
-### 認証
+### 主要な操作
 
-- `POST /auth/login` - ユーザーログイン
-- `POST /auth/register` - ユーザー登録
-- `POST /auth/refresh` - トークンリフレッシュ
+#### クエリ
 
-### 投稿
+- `me` - 現在のユーザー情報取得
+- `feed` - 投稿フィード取得（ページネーション対応）
+- `myPosts` - 自分の投稿一覧取得
+- `myReactions` - 自分がリアクションした投稿一覧取得
 
-- `GET /posts` - 投稿一覧取得
-- `POST /posts` - 投稿作成
-- `GET /posts/:id` - 投稿詳細取得
-- `PUT /posts/:id` - 投稿更新
-- `DELETE /posts/:id` - 投稿削除
+#### ミューテーション
 
-### ユーザー
+- `createPost` - 投稿作成
+- `deletePost` - 投稿削除
+- `setNickname` - ニックネーム設定
+- `addReaction` - 投稿にリアクション追加
+- `addNote` - プライベートノート追加
 
-- `GET /users/profile` - プロフィール取得
-- `PUT /users/profile` - プロフィール更新
+### GraphQL Playground
+
+開発環境では `/graphql` にアクセスしてGraphQL Playgroundを使用できます。
 
 ## 🧪 テスト
 

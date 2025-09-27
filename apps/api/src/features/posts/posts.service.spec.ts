@@ -48,7 +48,7 @@ describe('PostsService', () => {
   });
 
   describe('getFeed', () => {
-    it('ページネーション付きの投稿一覧を返すべき', async () => {
+    it('ページネーション付きの投稿一覧を返すこと', async () => {
       const mockPosts = [
         {
           id: '1',
@@ -72,7 +72,7 @@ describe('PostsService', () => {
       expect(result.edges[0].node.reactionCount).toBe(0);
     });
 
-    it('カーソルを使用したページネーションを処理できるべき', async () => {
+    it('カーソルを使用したページネーションを処理できること', async () => {
       mockPrismaService.post.findMany.mockResolvedValue([]);
 
       await service.getFeed({ first: 10, after: 'cursor123' });
@@ -90,7 +90,7 @@ describe('PostsService', () => {
   });
 
   describe('create', () => {
-    it('投稿を作成できるべき', async () => {
+    it('投稿を作成できること', async () => {
       const mockPost = {
         id: 'post1',
         whatPerson: '友達',
@@ -99,16 +99,29 @@ describe('PostsService', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
         author: { nickname: 'テストユーザー' },
-        postEmotions: [],
+        postEmotions: [
+          {
+            emotion: { code: 'happy' },
+          },
+        ],
+        reactions: [],
       };
 
       const mockEmotions = [{ id: 'emotion1', code: 'happy' }];
 
       mockPrismaService.emotion.findMany.mockResolvedValue(mockEmotions);
-      mockPrismaService.post.create.mockResolvedValue(mockPost);
+      mockPrismaService.post.create.mockResolvedValue({
+        id: 'post1',
+        whatPerson: '友達',
+        thoughts: 'テスト',
+        authorId: 'user1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
       mockPrismaService.postEmotion.createMany.mockResolvedValue({ count: 1 });
+      mockPrismaService.post.findUnique.mockResolvedValue(mockPost);
 
-      await service.create(
+      const result = await service.create(
         {
           whatPerson: '友達',
           thoughts: 'テスト',
@@ -116,6 +129,10 @@ describe('PostsService', () => {
         },
         'user1',
       );
+
+      expect(result).toBeDefined();
+      expect(result.whatPerson).toBe('友達');
+      expect(result.emotions).toContain('happy');
 
       expect(mockPrismaService.post.create).toHaveBeenCalledWith({
         data: {
@@ -129,7 +146,7 @@ describe('PostsService', () => {
   });
 
   describe('findAll', () => {
-    it('全ての投稿を返すべき', async () => {
+    it('全ての投稿を返すこと', async () => {
       const mockPosts = [
         {
           id: '1',
@@ -155,6 +172,7 @@ describe('PostsService', () => {
               emotion: true,
             },
           },
+          reactions: true,
         },
         orderBy: {
           createdAt: 'desc',
@@ -164,7 +182,7 @@ describe('PostsService', () => {
   });
 
   describe('findOne', () => {
-    it('単一の投稿を返すべき', async () => {
+    it('単一の投稿を返すこと', async () => {
       const mockPost = {
         id: '1',
         whatPerson: '友達',
@@ -189,13 +207,14 @@ describe('PostsService', () => {
               emotion: true,
             },
           },
+          reactions: true,
         },
       });
     });
   });
 
   describe('remove', () => {
-    it('投稿を削除できるべき', async () => {
+    it('投稿を削除できること', async () => {
       const postId = 'post-123';
       const mockPost = {
         id: postId,
@@ -234,7 +253,7 @@ describe('PostsService', () => {
       expect(result.id).toBe(postId);
     });
 
-    it('投稿が見つからない場合はエラーを投げるべき', async () => {
+    it('投稿が見つからない場合はエラーが投げられること', async () => {
       const postId = 'non-existent-post';
 
       mockPrismaService.post.findUnique.mockResolvedValue(null);

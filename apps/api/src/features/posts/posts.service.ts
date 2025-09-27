@@ -7,20 +7,27 @@ import {
   MyPostsArgs,
   MyReactionsArgs,
 } from 'src/core/graphql/inputs';
+import { NotFoundError } from '../../core/common/exceptions';
+import { assertPolicy } from '../../core/common/policy';
 
 @Injectable()
 export class PostsService {
+  private readonly postInclude = {
+    postEmotions: {
+      include: {
+        emotion: true,
+      },
+    },
+    reactions: true,
+  };
+
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
     return this.prisma.post.findMany({
       include: {
         author: true,
-        postEmotions: {
-          include: {
-            emotion: true,
-          },
-        },
+        ...this.postInclude,
       },
       orderBy: {
         createdAt: 'desc',
@@ -33,57 +40,23 @@ export class PostsService {
       where: { id },
       include: {
         author: true,
-        postEmotions: {
-          include: {
-            emotion: true,
-          },
-        },
+        ...this.postInclude,
       },
     });
   }
 
   async create(createPostInput: CreatePostInput, authorId: string) {
-    const post = await this.prisma.post.create({
-      data: {
-        whatPerson: createPostInput.whatPerson,
-        thoughts: createPostInput.thoughts,
-        authorId,
-      },
-    });
-
-    const emotions = await this.prisma.emotion.findMany({
-      where: {
-        code: {
-          in: createPostInput.emotions,
-        },
-      },
-    });
-
-    await this.prisma.postEmotion.createMany({
-      data: emotions.map((emotion) => ({
-        postId: post.id,
-        emotionId: emotion.id,
-      })),
-    });
-
-    return this.findOne(post.id);
+    return this.createPost(authorId, createPostInput);
   }
 
   async remove(id: string): Promise<Post> {
     const post = await this.prisma.post.findUnique({
       where: { id },
-      include: {
-        postEmotions: {
-          include: {
-            emotion: true,
-          },
-        },
-        reactions: true,
-      },
+      include: this.postInclude,
     });
 
     if (!post) {
-      throw new Error(`Post with ID ${id} not found`);
+      throw new NotFoundError('Post', id);
     }
 
     await this.prisma.post.delete({
@@ -158,42 +131,18 @@ export class PostsService {
       authorId: userId,
     };
 
-    if (args.after) {
-      whereClause.createdAt = {
-        lt: new Date(Buffer.from(args.after, 'base64').toString()),
-      };
-    }
+    Object.assign(whereClause, this.buildPaginationWhereClause(args.after));
 
     const posts = await this.prisma.post.findMany({
       where: whereClause,
-      include: {
-        postEmotions: {
-          include: {
-            emotion: true,
-          },
-        },
-        reactions: true,
-      },
+      include: this.postInclude,
       orderBy: {
         createdAt: 'desc',
       },
       take: limit + 1,
     });
 
-    const hasNextPage = posts.length > limit;
-    const edges: PostEdge[] = posts.slice(0, limit).map((post) => ({
-      node: this.formatPost(post, userId),
-      cursor: Buffer.from(post.createdAt.toISOString()).toString('base64'),
-    }));
-
-    return {
-      edges,
-      pageInfo: {
-        endCursor:
-          edges.length > 0 ? edges[edges.length - 1].cursor : undefined,
-        hasNextPage,
-      },
-    };
+    return this.buildPostConnection(posts, limit, userId);
   }
 
   async getUserReactions(
@@ -202,25 +151,16 @@ export class PostsService {
   ): Promise<PostConnection> {
     const limit = Math.min(args.first || 20, 100);
 
+    const reactionWhere = {
+      userId: userId,
+      ...this.buildPaginationWhereClause(args.after),
+    };
+
     const reactions = await this.prisma.reaction.findMany({
-      where: {
-        userId: userId,
-        ...(args.after && {
-          createdAt: {
-            lt: new Date(Buffer.from(args.after, 'base64').toString()),
-          },
-        }),
-      },
+      where: reactionWhere,
       include: {
         post: {
-          include: {
-            postEmotions: {
-              include: {
-                emotion: true,
-              },
-            },
-            reactions: true,
-          },
+          include: this.postInclude,
         },
       },
       orderBy: {
@@ -246,6 +186,9 @@ export class PostsService {
   }
 
   async createPost(authorId: string, input: CreatePostInput): Promise<Post> {
+    assertPolicy(input.whatPerson);
+    assertPolicy(input.thoughts);
+
     const post = await this.prisma.post.create({
       data: {
         whatPerson: input.whatPerson,
@@ -272,17 +215,41 @@ export class PostsService {
 
     const fullPost = await this.prisma.post.findUnique({
       where: { id: post.id },
-      include: {
-        postEmotions: {
-          include: {
-            emotion: true,
-          },
-        },
-        reactions: true,
-      },
+      include: this.postInclude,
     });
 
     return this.formatPost(fullPost!, authorId);
+  }
+
+  private buildPostConnection(
+    posts: any[],
+    limit: number,
+    currentUserId: string | null,
+  ): PostConnection {
+    const hasNextPage = posts.length > limit;
+    const edges: PostEdge[] = posts.slice(0, limit).map((post) => ({
+      node: this.formatPost(post, currentUserId),
+      cursor: Buffer.from(post.createdAt.toISOString()).toString('base64'),
+    }));
+
+    return {
+      edges,
+      pageInfo: {
+        endCursor:
+          edges.length > 0 ? edges[edges.length - 1].cursor : undefined,
+        hasNextPage,
+      },
+    };
+  }
+
+  private buildPaginationWhereClause(after?: string) {
+    return after
+      ? {
+          createdAt: {
+            lt: new Date(Buffer.from(after, 'base64').toString()),
+          },
+        }
+      : {};
   }
 
   formatPost(post: any, currentUserId: string | null): Post {
