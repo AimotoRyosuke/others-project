@@ -1,6 +1,3 @@
-// GraphQL Client Configuration
-// Apollo Client共通設定とクライアントユーティリティ
-
 export const GRAPHQL_CLIENT_VERSION = '0.1.0';
 
 export { createApolloClient } from './client';

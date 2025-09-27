@@ -1,6 +1,5 @@
 import type { EmotionCode } from '@others/types';
 
-// 日付フォーマット関数
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   const now = new Date();
@@ -14,7 +13,6 @@ export function formatDate(dateString: string): string {
   return date.toLocaleDateString('ja-JP');
 }
 
-// 感情コードの日本語変換
 export const emotionLabels: Record<EmotionCode, string> = {
   happy: '嬉しい',
   sad: '悲しい',
@@ -29,18 +27,15 @@ export function getEmotionLabel(code: EmotionCode): string {
   return emotionLabels[code];
 }
 
-// テキストの切り詰め
 export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength) + '...';
 }
 
-// 匿名ユーザー名生成
 export function generateAnonymousName(ordinal: number): string {
   return `anonymous${ordinal}`;
 }
 
-// Apollo Client エラーハンドリング
 export function extractErrorMessage(error: unknown): string {
   if (error && typeof error === 'object' && 'graphQLErrors' in error) {
     const gqlError = error as { graphQLErrors?: Array<{ message: string }> };

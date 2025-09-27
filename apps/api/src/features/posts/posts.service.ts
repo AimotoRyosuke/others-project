@@ -43,7 +43,6 @@ export class PostsService {
   }
 
   async create(createPostInput: CreatePostInput, authorId: string) {
-    // まず投稿を作成
     const post = await this.prisma.post.create({
       data: {
         whatPerson: createPostInput.whatPerson,
@@ -52,7 +51,6 @@ export class PostsService {
       },
     });
 
-    // 感情を関連付け
     const emotions = await this.prisma.emotion.findMany({
       where: {
         code: {
@@ -68,7 +66,6 @@ export class PostsService {
       })),
     });
 
-    // 完成した投稿を取得して返す
     return this.findOne(post.id);
   }
 
@@ -96,14 +93,11 @@ export class PostsService {
     return this.formatPost(post, null);
   }
 
-  // GraphQL用のメソッド
-
   async getFeed(args: FeedArgs): Promise<PostConnection> {
     const limit = Math.min(args.first || 20, 100);
 
     const whereClause: any = {};
 
-    // 感情フィルター
     if (args.emotionsAny && args.emotionsAny.length > 0) {
       whereClause.postEmotions = {
         some: {
@@ -116,7 +110,6 @@ export class PostsService {
       };
     }
 
-    // カーソルベースページネーション
     if (args.after) {
       whereClause.createdAt = {
         lt: new Date(Buffer.from(args.after, 'base64').toString()),
@@ -141,7 +134,7 @@ export class PostsService {
 
     const hasNextPage = posts.length > limit;
     const edges: PostEdge[] = posts.slice(0, limit).map((post) => ({
-      node: this.formatPost(post, null), // Feed画面では認証情報なし
+      node: this.formatPost(post, null),
       cursor: Buffer.from(post.createdAt.toISOString()).toString('base64'),
     }));
 
@@ -209,7 +202,6 @@ export class PostsService {
   ): Promise<PostConnection> {
     const limit = Math.min(args.first || 20, 100);
 
-    // まずユーザーのリアクションを取得
     const reactions = await this.prisma.reaction.findMany({
       where: {
         userId: userId,
@@ -254,7 +246,6 @@ export class PostsService {
   }
 
   async createPost(authorId: string, input: CreatePostInput): Promise<Post> {
-    // まず投稿を作成
     const post = await this.prisma.post.create({
       data: {
         whatPerson: input.whatPerson,
@@ -279,7 +270,6 @@ export class PostsService {
       })),
     });
 
-    // 完成した投稿を取得して返す
     const fullPost = await this.prisma.post.findUnique({
       where: { id: post.id },
       include: {

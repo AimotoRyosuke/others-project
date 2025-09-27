@@ -19,7 +19,6 @@ describe('@others/validation', () => {
     it('必須フィールドがない場合はエラーが返されること', () => {
       const invalidPostData = {
         emotions: ['happy'],
-        // whatPersonが不足
       };
 
       const result = createPostSchema.safeParse(invalidPostData);

@@ -11,7 +11,6 @@ export class UserService {
     });
 
     if (!user) {
-      // 新規ユーザー作成時にordinalを自動で採番
       user = await this.prisma.user.create({
         data: {
           firebaseUid,
@@ -24,7 +23,6 @@ export class UserService {
   }
 
   async updateNickname(firebaseUid: string, nickname: string) {
-    // ニックネームを小文字に変換（仕様に従って）
     const normalizedNickname = nickname.toLowerCase();
 
     return this.prisma.user.update({

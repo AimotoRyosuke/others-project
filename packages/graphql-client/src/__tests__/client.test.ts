@@ -1,7 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { createApolloClient } from '../client';
 
-// Apollo Clientのモック
 jest.mock('@apollo/client', () => ({
   ...jest.requireActual('@apollo/client'),
   ApolloClient: jest.fn(),
@@ -48,7 +47,7 @@ describe('@others/graphql-client', () => {
       createApolloClient(options);
 
       expect(MockedApolloClient).toHaveBeenCalled();
-      expect(getToken).not.toHaveBeenCalled(); // 初期化時点では呼ばれない
+      expect(getToken).not.toHaveBeenCalled();
     });
 
     it('異なるURIでクライアントが作成できること', () => {

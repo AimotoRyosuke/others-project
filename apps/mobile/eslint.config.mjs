@@ -3,11 +3,10 @@ import js from '@eslint/js';
 import typescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 
-// React Native/Expo固有の設定
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.{ts,tsx}'], // TypeScriptファイルのみ
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -20,7 +19,6 @@ export default [
         project: './tsconfig.json',
       },
       globals: {
-        // React Native用のグローバル変数
         __DEV__: 'readonly',
         FormData: 'readonly',
         fetch: 'readonly',
@@ -32,24 +30,18 @@ export default [
       '@typescript-eslint': typescript,
     },
     rules: {
-      // TypeScript関連
       '@typescript-eslint/no-unused-vars': [
         'error',
-        { 
+        {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
-          destructuredArrayIgnorePattern: '^_'
+          destructuredArrayIgnorePattern: '^_',
         },
       ],
-      
-      // モバイル開発では console.log は一般的
       'no-console': 'off',
-      
-      // React Native では any の使用が必要な場合がある
       '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
-  // JavaScript ファイルの使用を明示的に禁止
   {
     files: ['**/*.js', '**/*.jsx'],
     rules: {
@@ -57,15 +49,15 @@ export default [
         'error',
         {
           selector: 'Program',
-          message: 'JavaScript files are not allowed. Please use TypeScript (.ts/.tsx) instead.',
+          message:
+            'JavaScript files are not allowed. Please use TypeScript (.ts/.tsx) instead.',
         },
       ],
     },
   },
   {
-    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'], // テストファイルもTypeScriptのみ
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
     rules: {
-      // テストファイルでは制限を緩める
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },

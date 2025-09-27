@@ -5,7 +5,6 @@ import './App.css';
 function App() {
   const [count, setCount] = useState(0);
 
-  // Design tokens を使ったスタイル
   const headerStyle = {
     padding: spacing[8],
     background: `linear-gradient(135deg, ${colors.primary[500]} 0%, ${colors.primary[700]} 100%)`,
@@ -75,7 +74,6 @@ function App() {
           </button>
         </div>
 
-        {/* Design Tokens の例を表示 */}
         <div style={{ marginTop: spacing[8], textAlign: 'center' }}>
           <h3 style={{ marginBottom: spacing[4], color: colors.neutral[700] }}>
             感情の色

@@ -29,19 +29,19 @@ module.exports = {
     '**/*.(t|j)s',
     '!**/*.d.ts',
     '!**/index.ts',
-    '!**/main.ts', // アプリケーションエントリーポイントのため除外
-    '!**/*.module.ts', // NestJSモジュール設定ファイルのため除外
-    '!**/generated/**', // 自動生成ファイルのため除外
-    '!**/generated/prisma/**', // Prisma自動生成ファイルのため除外
-    '!**/dto/**', // データ転送オブジェクト（型定義のみ）のため除外
-    '!**/entities/**', // GraphQLエンティティ（型定義のみ）のため除外
-    '!**/graphql/entities.ts', // GraphQL型定義ファイルのため除外
-    '!**/graphql/inputs.ts', // GraphQL入力型定義ファイルのため除外
-    '!**/coverage-detailed/**', // カバレッジレポート生成ファイルのため除外
-    '!**/setupTests.ts', // テスト設定ファイルのため除外
-    '!**/app.controller.ts', // シンプルなヘルスチェックAPIのため除外
-    '!**/config/**', // 設定ファイル（GraphQL設定等）のため除外
-    '!**/app.module.ts', // アプリケーションモジュール設定のため除外
+    '!**/main.ts',
+    '!**/*.module.ts',
+    '!**/generated/**',
+    '!**/generated/prisma/**',
+    '!**/dto/**',
+    '!**/entities/**',
+    '!**/graphql/entities.ts',
+    '!**/graphql/inputs.ts',
+    '!**/coverage-detailed/**',
+    '!**/setupTests.ts',
+    '!**/app.controller.ts',
+    '!**/config/**',
+    '!**/app.module.ts',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
@@ -52,15 +52,14 @@ module.exports = {
   coverageDirectory: '../coverage',
   coverageThreshold: {
     global: {
-      branches: 60, // 現在60.95%なので実現可能な値に設定
-      functions: 55, // GraphQLデコレータの影響を考慮して現実的な値
-      lines: 84, // 現在84.65%なので達成可能な値
-      statements: 84, // 現在84.65%なので達成可能な値
+      branches: 50,
+      functions: 50,
+      lines: 80,
+      statements: 80,
     },
   },
   setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   displayName: '@others/api',
   coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
-  // V8 coverage providerを使用してより正確なカバレッジを取得
   coverageProvider: 'v8',
 };

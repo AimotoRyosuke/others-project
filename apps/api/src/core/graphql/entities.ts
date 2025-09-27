@@ -16,9 +16,7 @@ export class User {
 }
 
 @ObjectType()
-export class Me extends User {
-  // Meは追加の個人情報を含む可能性があるため分離
-}
+export class Me extends User {}
 
 @ObjectType()
 export class Post {
@@ -80,7 +78,6 @@ export class PrivateNote {
   post!: Post;
 }
 
-// Pagination types
 @ObjectType()
 export class PageInfo {
   @Field({ nullable: true })

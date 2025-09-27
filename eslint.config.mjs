@@ -25,35 +25,27 @@ const commonIgnores = [
   '*.config.ts',
 
   '*.tsbuildinfo',
-  // ビルド成果物のJavaScriptファイルを除外
   '**/dist/**/*.js',
   '**/build/**/*.js',
 
   '**/.expo/**/*.js',
   '**/coverage/**/*.js',
-  // d.tsファイルも除外（TypeScript定義ファイル）
   '**/*.d.ts',
-  // Node.jsスクリプト除外
   'scripts/**/*.js',
 ];
 
-// 基本的なTypeScriptルール
 const commonTypeScriptRules = {
   '@typescript-eslint/no-explicit-any': 'warn',
-  '@typescript-eslint/no-unused-vars': [
-    'error',
-    { argsIgnorePattern: '^_' },
-  ],
+  '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   'prefer-const': 'error',
   'no-var': 'error',
   'no-console': ['warn', { allow: ['warn', 'error'] }],
 };
 
-// Node.js環境用の設定
 export const nodeConfig = [
   js.configs.recommended,
   {
-    files: ['**/*.ts'], // TypeScriptファイルのみ
+    files: ['**/*.ts'],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -81,7 +73,6 @@ export const nodeConfig = [
       'prettier/prettier': 'error',
     },
   },
-  // JavaScript ファイルの使用を明示的に禁止
   {
     files: ['**/*.js', '**/*.jsx'],
     rules: {
@@ -89,7 +80,8 @@ export const nodeConfig = [
         'error',
         {
           selector: 'Program',
-          message: 'JavaScript files are not allowed. Please use TypeScript (.ts) instead.',
+          message:
+            'JavaScript files are not allowed. Please use TypeScript (.ts) instead.',
         },
       ],
     },
@@ -99,11 +91,10 @@ export const nodeConfig = [
   },
 ];
 
-// React環境用の設定
 export const reactConfig = [
   js.configs.recommended,
   {
-    files: ['**/*.{ts,tsx}'], // TypeScriptファイルのみ
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -143,7 +134,6 @@ export const reactConfig = [
       'react/react-in-jsx-scope': 'off',
     },
   },
-  // JavaScript ファイルの使用を明示的に禁止
   {
     files: ['**/*.js', '**/*.jsx'],
     rules: {
@@ -151,7 +141,8 @@ export const reactConfig = [
         'error',
         {
           selector: 'Program',
-          message: 'JavaScript files are not allowed. Please use TypeScript (.ts/.tsx) instead.',
+          message:
+            'JavaScript files are not allowed. Please use TypeScript (.ts/.tsx) instead.',
         },
       ],
     },
@@ -161,11 +152,10 @@ export const reactConfig = [
   },
 ];
 
-// デフォルト設定（一般的なTypeScript用）
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.ts'], // TypeScriptファイルのみ
+    files: ['**/*.ts'],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -195,7 +185,6 @@ export default [
       'prettier/prettier': 'error',
     },
   },
-  // JavaScript ファイルの使用を明示的に禁止
   {
     files: ['**/*.js', '**/*.jsx'],
     rules: {
@@ -203,7 +192,8 @@ export default [
         'error',
         {
           selector: 'Program',
-          message: 'JavaScript files are not allowed. Please use TypeScript (.ts) instead.',
+          message:
+            'JavaScript files are not allowed. Please use TypeScript (.ts) instead.',
         },
       ],
     },
