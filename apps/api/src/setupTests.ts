@@ -2,6 +2,7 @@ import 'jest-environment-node';
 
 // Firebase Admin SDKのモック
 jest.mock('firebase-admin', () => ({
+  apps: [], // apps配列を追加
   initializeApp: jest.fn(),
   credential: {
     cert: jest.fn().mockReturnValue({}),
