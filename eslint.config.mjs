@@ -33,6 +33,8 @@ const commonIgnores = [
   '**/coverage/**/*.js',
   // d.tsファイルも除外（TypeScript定義ファイル）
   '**/*.d.ts',
+  // Node.jsスクリプト除外
+  'scripts/**/*.js',
 ];
 
 // 基本的なTypeScriptルール
