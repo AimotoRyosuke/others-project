@@ -8,16 +8,7 @@ import {
   IsOptional,
   IsIn,
 } from 'class-validator';
-
-const EMOTION_CODES = [
-  'happy',
-  'sad',
-  'lonely',
-  'fun',
-  'angry',
-  'scary',
-  'amazing',
-] as const;
+import { emotionCodes } from '@others/validation';
 
 @InputType()
 export class CreatePostInput {
@@ -37,16 +28,16 @@ export class CreatePostInput {
   @Field(() => [String])
   @IsArray()
   @ArrayNotEmpty({ message: '感情を1つ以上選択してください' })
-  @IsIn(EMOTION_CODES, { each: true, message: '無効な感情が選択されています' })
+  @IsIn(emotionCodes, { each: true, message: '無効な感情が選択されています' })
   emotions!: string[];
 }
 
 @InputType()
 export class SetNicknameInput {
   @Field()
-  @IsString()
+  @IsString({ message: 'ニックネームは文字列で入力してください' })
   @Length(3, 20, {
-    message: 'ニックネームは3文字以上20文字以内で入力してください',
+    message: 'ニックネームは3文字以上20文字以下で入力してください',
   })
   nickname!: string;
 }
@@ -89,7 +80,7 @@ export class FeedArgs {
   @Field(() => [String], { nullable: true })
   @IsOptional()
   @IsArray()
-  @IsIn(EMOTION_CODES, { each: true })
+  @IsIn(emotionCodes, { each: true })
   emotionsAny?: string[];
 }
 

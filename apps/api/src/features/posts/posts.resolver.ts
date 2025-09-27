@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, ID, Context } from '@nestjs/graphql';
 import { UseGuards, ValidationPipe } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { UserService } from '../users/users.service';
-import { assertPolicy } from '../../core/common/policy';
+import { assertTextPolicy } from '@others/validation';
 import { Post, PostConnection } from '../../core/graphql/entities';
 import { AuthGuard } from '../../core/auth/auth.guard';
 import {
@@ -48,8 +48,8 @@ export class PostsResolver {
     @Context() ctx: any,
   ): Promise<Post> {
     // ポリシーチェック
-    assertPolicy(input.whatPerson);
-    assertPolicy(input.thoughts);
+    assertTextPolicy(input.whatPerson);
+    assertTextPolicy(input.thoughts);
 
     const user = await this.userService.findOrCreateUser(
       ctx.req.user.firebaseUid,

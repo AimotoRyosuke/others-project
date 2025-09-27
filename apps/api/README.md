@@ -58,8 +58,8 @@ yarn type-check
 - **GraphQL** - API クエリ言語とランタイム
 - **Prisma** - データベースORM
 - **Firebase Admin** - 認証
-- **@others/types** - 共有型定義
-- **@others/validation** - Zodベースバリデーションスキーマ
+- **@others/types** - 共有型定義パッケージ
+- **@others/validation** - Zodベースバリデーション（直接使用）
 
 ## 📁 構造
 
@@ -72,7 +72,7 @@ src/
 │   └── graphql.config.ts  # GraphQL設定
 ├── core/
 │   ├── auth/             # Firebase認証
-│   ├── common/           # 共通ユーティリティ・例外
+│   ├── common/           # 共通例外
 │   ├── graphql/          # GraphQLエンティティ・入力型
 │   └── prisma/           # データベース接続
 └── features/             # 機能別モジュール
@@ -83,14 +83,17 @@ src/
 
 ## ✅ バリデーション
 
-データバリデーションには`@others/validation`パッケージを使用しています。
-Zodスキーマベースの型安全なバリデーションを提供します。
+データバリデーションには`@others/validation`パッケージを直接使用しています。
+Zodスキーマベースの型安全なバリデーションとテキストポリシーチェックを提供します。
 
 ### 使用方法
 
 ```typescript
-import { createPostSchema } from '@others/validation';
-import { assertPolicy } from './core/common/policy';
+import {
+  createPostSchema,
+  assertTextPolicy,
+  emotionCodes,
+} from '@others/validation';
 
 // Zodスキーマバリデーション
 const result = createPostSchema.safeParse(input);
@@ -99,9 +102,20 @@ if (!result.success) {
 }
 
 // ポリシーチェック（URL、メール、電話番号の禁止）
-assertPolicy(input.whatPerson);
-assertPolicy(input.thoughts);
+assertTextPolicy(input.whatPerson);
+assertTextPolicy(input.thoughts);
+
+// 感情コードの使用
+console.log('利用可能な感情:', emotionCodes); // ['happy', 'sad', 'lonely', ...]
 ```
+
+### 共有パッケージとの統合
+
+APIは以下の共有パッケージを使用して重複を避けています：
+
+- **@others/types**: GraphQL型定義とビジネスロジック型
+- **@others/validation**: バリデーションスキーマと共通関数
+- **@others/graphql-client**: GraphQLクエリとクライアント設定（型生成用）
 
 ## 🔐 認証
 
@@ -149,9 +163,24 @@ GraphQLエンドポイント: `/graphql`
 
 開発環境では `/graphql` にアクセスしてGraphQL Playgroundを使用できます。
 
+### GraphQLスキーマ更新
+
+リゾルバー変更後は以下の手順でスキーマを更新してください：
+
+```bash
+# 1. Prismaクライアント生成
+yarn db:generate
+
+# 2. API再起動（スキーマ自動生成）
+yarn dev
+
+# 3. GraphQLクライアント更新
+yarn workspace @others/graphql-client build
+```
+
 ## 🧪 テスト
 
-Jestを使用したテストスイートが設定されています。
+Jestを使用したテストスイートが設定されています。現在のカバレッジ: **95.4%**
 
 ```bash
 # 全テスト実行
@@ -162,7 +191,16 @@ yarn test:watch
 
 # デバッグモード
 yarn test:debug
+
+# カバレッジ確認
+yarn test:cov
 ```
+
+### テスト要件
+
+- **カバレッジ要件**: 85%以上
+- **テストケース名**: 日本語の連体形（「～すること」「～できること」）
+- **対象**: 単体テスト、統合テスト、E2Eテスト
 
 ---
 

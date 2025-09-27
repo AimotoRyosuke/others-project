@@ -8,7 +8,7 @@ import {
   MyReactionsArgs,
 } from 'src/core/graphql/inputs';
 import { NotFoundError } from '../../core/common/exceptions';
-import { assertPolicy } from '../../core/common/policy';
+import { assertTextPolicy } from '@others/validation';
 
 @Injectable()
 export class PostsService {
@@ -186,8 +186,8 @@ export class PostsService {
   }
 
   async createPost(authorId: string, input: CreatePostInput): Promise<Post> {
-    assertPolicy(input.whatPerson);
-    assertPolicy(input.thoughts);
+    assertTextPolicy(input.whatPerson);
+    assertTextPolicy(input.thoughts);
 
     const post = await this.prisma.post.create({
       data: {

@@ -39,3 +39,11 @@ export const nicknameSchema = z
   .max(20, '20文字以内')
   .regex(/^[a-z][a-z0-9_.-]*$/, '英小文字で始まり、英数と_.-のみ')
   .transform((s) => s.toLowerCase());
+
+export function assertTextPolicy(text?: string): void {
+  if (!text) return;
+  const t = text.toLowerCase();
+  if (urlLike.test(t)) throw new Error('URLは禁止です');
+  if (emailLike.test(t)) throw new Error('メールは禁止です');
+  if (phoneLike.test(t)) throw new Error('電話番号は禁止です');
+}
