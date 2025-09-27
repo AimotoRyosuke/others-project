@@ -11,44 +11,44 @@ Others ProjectのバックエンドAPIサーバーです。NestJS 11を使用し
 ### 開発サーバーの起動
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ### ビルド
 
 ```bash
-npm run build
+yarn build
 ```
 
 ### プロダクション起動
 
 ```bash
-npm run start:prod
+yarn start:prod
 ```
 
 ### テスト
 
 ```bash
 # 単体テスト
-npm run test
+yarn test
 
 # E2Eテスト
-npm run test:e2e
+yarn test:e2e
 
 # テストカバレッジ
-npm run test:cov
+yarn test:cov
 ```
 
 ### リント
 
 ```bash
-npm run lint
+yarn lint
 ```
 
 ### 型チェック
 
 ```bash
-npm run type-check
+yarn type-check
 ```
 
 ## 🛠️ 技術スタック
@@ -123,13 +123,13 @@ Jestを使用したテストスイートが設定されています。
 
 ```bash
 # 全テスト実行
-npm run test
+yarn test
 
 # ウォッチモード
-npm run test:watch
+yarn test:watch
 
 # デバッグモード
-npm run test:debug
+yarn test:debug
 ```
 
 ---

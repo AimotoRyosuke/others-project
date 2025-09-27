@@ -31,25 +31,25 @@ const post: Post = {
 ### ビルド
 
 ```bash
-npm run build
+yarn build
 ```
 
 ### 型チェック
 
 ```bash
-npm run type-check
+yarn type-check
 ```
 
 ### リント
 
 ```bash
-npm run lint
+yarn lint
 ```
 
 ### 開発モード（ウォッチ）
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ## 📦 エクスポート
