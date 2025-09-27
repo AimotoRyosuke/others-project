@@ -47,6 +47,8 @@ Thumbs.db
 # Test outputs
 /apps/*/coverage
 /packages/*/coverage
+coverage-merged.json
+coverage-summary.json
 
 # Env files
 .env
