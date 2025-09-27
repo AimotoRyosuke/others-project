@@ -1,6 +1,6 @@
 # TODO: 本番環境用のDocker Compose設定
 # 本番用の最適化された設定を実装予定
-# - Next.js standalone build
+# - Vite production build
 # - NestJS production build
 # - 環境変数の適切な管理
 # - セキュリティ設定
@@ -8,14 +8,14 @@
 # - ヘルスチェック
 
 # services:
-  # TODO: 本番環境用のサービス設定を実装
-  # web:
-  #   本番用Dockerfile使用
-  # api:
-  #   本番用Dockerfile使用
-  # db:
-  #   本番用DB設定
-  
+# TODO: 本番環境用のサービス設定を実装
+# web:
+#   本番用Dockerfile使用
+# api:
+#   本番用Dockerfile使用
+# db:
+#   本番用DB設定
+
 networks:
   others-network:
     driver: bridge

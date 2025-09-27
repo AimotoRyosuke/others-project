@@ -1,16 +1,25 @@
 // @ts-check
 import { reactConfig } from '../../eslint.config.mjs';
-import { FlatCompat } from '@eslint/eslintrc';
-
-const compat = new FlatCompat();
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
   ...reactConfig,
-  ...compat.extends('next/core-web-vitals'),
   {
-    files: ['**/*.{ts,tsx}'], // TypeScriptファイルのみ
+    files: ['**/*.{ts,tsx}'],
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
     rules: {
-      // Next.js向けルール
+      // React Hooks ルール
+      ...reactHooks.configs.recommended.rules,
+      // React Refresh ルール
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+      // Vite + React 向けルール
       'react/jsx-key': 'error',
       'react/jsx-no-target-blank': 'error',
       'react/no-unescaped-entities': 'error',

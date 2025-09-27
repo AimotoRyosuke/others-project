@@ -13,7 +13,7 @@
 # Build outputs
 /apps/*/dist
 /apps/*/build
-/apps/web/.next
+/apps/web/dist
 /apps/mobile/.expo
 /apps/mobile/web-build
 /packages/*/dist

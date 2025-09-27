@@ -1,55 +1,64 @@
 # @others/web
 
-Next.js 15ベースのWebアプリケーションです。
+Vite + React 19ベースのWebアプリケーションです。
 
 ## 📖 概要
 
-Others ProjectのWebフロントエンドアプリケーションです。Next.js 15とTurbopackを使用して構築されています。
-SEO最適化するためにExpoのweb機能を使用せず、Next.jsを採用しています
+Others ProjectのWebフロントエンドアプリケーションです。Vite + React 19を使用して構築されています。
+LPは別レポジトリで管理し、こちらはサービス本体のアプリケーションとして機能します。
 
 ## 🚀 開発
 
 ### 開発サーバーの起動
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ### ビルド
 
 ```bash
-npm run build
+yarn build
 ```
 
 ### プロダクション起動
 
 ```bash
-npm run start
+yarn preview
 ```
 
 ### リント
 
 ```bash
-npm run lint
+yarn lint
 ```
 
-## 🛠️ 技術スタック
+### 型チェック
 
-- **Next.js 15** - Reactフレームワーク（Turbopack使用）
+```bash
+yarn type-check
+```
+
+## 技術スタック
+
 - **React 19** - UIライブラリ
-- **TypeScript 5** - 型安全性
+- **TypeScript** - 型安全性
+- **Vite** - ビルドツールと開発サーバー
 - **@others/types** - 共有型定義
-- **@others/ui** - 共有UIコンポーネント
+- **@others/design-tokens** - デザイントークン定義
 - **@others/validation** - バリデーションスキーマ
 
 ## 📁 構造
 
 ```text
-app/
-├── layout.tsx      # ルートレイアウト
-├── page.tsx        # ホームページ
-├── globals.css     # グローバルスタイル
-└── favicon.ico     # ファビコン
+src/
+├── main.tsx        # エントリーポイント
+├── App.tsx         # メインアプリコンポーネント
+├── App.css         # アプリスタイル
+└── index.css       # グローバルスタイル
+public/
+├── favicon.ico     # ファビコン
+└── ...            # 静的アセット
 ```
 
 ## 🌐 機能
@@ -63,23 +72,27 @@ app/
 - ユーザープロフィール
 - その他のソーシャル機能
 
-## Next.jsについて
+## Viteについて
 
-このプロジェクトは[Next.js](https://nextjs.org)で構築されており、[`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app)でブートストラップされています。
+このプロジェクトは[Vite](https://vite.dev)で構築されており、高速なホットリロードとビルド最適化を実現しています。
 
 ### フォント最適化
 
-このプロジェクトは[`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)を使用して、Vercelの新しいフォントファミリー[Geist](https://vercel.com/font)を自動的に最適化・読み込みします。
+このプロジェクトは`@others/design-tokens`を使用して、一貫したフォントファミリー（Inter, system fonts）を採用しています。
 
 ### 詳細情報
 
-Next.jsについて詳しく学ぶには、以下のリソースをご覧ください：
+Vite + Reactについて詳しく学ぶには、以下のリソースをご覧ください：
 
-- [Next.js Documentation](https://nextjs.org/docs) - Next.jsの機能とAPIについて学ぶ
-- [Learn Next.js](https://nextjs.org/learn) - インタラクティブなNext.jsチュートリアル
+- [Vite Documentation](https://vite.dev) - Viteの機能と設定について学ぶ
+- [React Documentation](https://react.dev) - Reactの最新機能とベストプラクティス
 
 ### デプロイ
 
-Next.jsアプリをデプロイする最も簡単な方法は、Next.jsの作成者による[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)を使用することです。
+Viteアプリをデプロイするには、以下のプラットフォームを推奨します：
 
-詳細については、[Next.jsデプロイメントドキュメント](https://nextjs.org/docs/app/building-your-application/deploying)をご確認ください。
+- [Vercel](https://vercel.com) - 簡単なGit連携デプロイ
+- [Netlify](https://netlify.com) - 高速なCDNと継続デプロイ
+- [Cloudflare Pages](https://pages.cloudflare.com) - グローバルエッジデプロイ
+
+詳細については、[Vite デプロイメントドキュメント](https://vite.dev/guide/static-deploy.html)をご確認ください。

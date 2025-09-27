@@ -16,19 +16,19 @@ const commonIgnores = [
   'node_modules/',
   'dist/',
   'build/',
-  '.next/',
+
   '.expo/',
   'coverage/',
   '.turbo/',
   '*.config.js',
   '*.config.mjs',
   '*.config.ts',
-  'next-env.d.ts',
+
   '*.tsbuildinfo',
   // ビルド成果物のJavaScriptファイルを除外
   '**/dist/**/*.js',
   '**/build/**/*.js',
-  '**/.next/**/*.js',
+
   '**/.expo/**/*.js',
   '**/coverage/**/*.js',
   // d.tsファイルも除外（TypeScript定義ファイル）

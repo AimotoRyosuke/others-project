@@ -20,7 +20,7 @@ cd others-project
 
 起動後、以下のURLでアクセスできます：
 
-- **Web（Next.js）**: http://localhost:3008
+- **Web（Vite+React）**: http://localhost:3008
 - **API（NestJS）**: http://localhost:4008
 - **Database（PostgreSQL）**: localhost:5438
 
@@ -95,7 +95,7 @@ docker system prune -a
 現在、本番環境の設定は未実装です（TODO）。
 `docker-compose.yml` を参照して、以下の項目を実装予定：
 
-- [ ] Next.js standalone build
+- [ ] Vite production build
 - [ ] NestJS production build  
 - [ ] 環境変数の適切な管理
 - [ ] セキュリティ設定

@@ -3,24 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "type-check": "../../node_modules/.bin/tsc --noEmit",
     "lint": "eslint \"**/*.{ts,tsx}\" --report-unused-disable-directives",
     "lint:js-check": "eslint \"**/*.{js,jsx}\" --report-unused-disable-directives"
   },
   "dependencies": {
+    "@others/design-tokens": "workspace:*",
     "@others/types": "workspace:*",
-    "@others/ui": "workspace:*",
     "@others/validation": "workspace:*",
-    "next": "15.5.3",
     "react": "19.1.1",
     "react-dom": "19.1.1"
   },
   "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.3.3",
     "eslint": "^9.36.0",
-    "eslint-config-next": "15.5.3",
-    "typescript": "^5.7.3"
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
   }
 }

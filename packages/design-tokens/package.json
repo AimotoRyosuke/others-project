@@ -1,5 +1,5 @@
 {
-  "name": "@others/ui",
+  "name": "@others/design-tokens",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
@@ -8,18 +8,11 @@
     "build": "tsc -b",
     "clean": "rm -rf dist .tsbuildinfo",
     "type-check": "tsc --noEmit",
-    "lint": "eslint 'src/**/*.{ts,tsx}' --report-unused-disable-directives",
+    "lint": "eslint 'src/**/*.{ts}' --report-unused-disable-directives",
     "lint:js-check": "eslint '**/*.{js,jsx}' --report-unused-disable-directives",
     "dev": "tsc -b --watch"
   },
-  "dependencies": {
-    "@others/types": "workspace:*",
-    "react": "19.1.1",
-    "react-dom": "19.1.1"
-  },
   "devDependencies": {
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
     "typescript": "^5"
   }
 }

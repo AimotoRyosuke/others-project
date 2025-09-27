@@ -22,7 +22,7 @@
 yarn add -D typescript eslint prettier
 
 # 特定のワークスペースに依存関係を追加
-yarn workspace @others/web add next
+yarn workspace @others/web add vite
 yarn workspace @others/api add @nestjs/common
 
 # ワークスペース間の依存関係
@@ -45,14 +45,14 @@ yarn workspace @others/web add @others/types@workspace:*
 
 ### 📱 アプリケーション (`apps/`)
 
-- **`@others/web`** - Next.js 15ベースのWebアプリケーション
+- **`@others/web`** - Vite + React 19ベースのWebアプリケーション
 - **`@others/api`** - NestJSベースのAPIサーバー
 - **`@others/mobile`** - React Native（Expo）ベースのモバイルアプリ
 
 ### 📦 共有パッケージ (`packages/`)
 
 - **`@others/types`** - TypeScript型定義の共有パッケージ
-- **`@others/ui`** - React UIコンポーネントライブラリ
+- **`@others/design-tokens`** - デザイントークン定義（色、フォント、スペーシングなど）
 - **`@others/validation`** - Zodベースのバリデーションスキーマ
 
 ## 🚀 クイックスタート
@@ -107,7 +107,7 @@ yarn workspace @others/api db:studio
 
 **Docker開発環境でのポート:**
 
-- Web (Next.js): http://localhost:3008
+- Web (Vite+React): http://localhost:3008
 - API (NestJS): http://localhost:4008  
 - Database (PostgreSQL): localhost:5438
 
@@ -172,7 +172,7 @@ yarn turbo run build --filter=@others/web...
 
 ### フロントエンド
 
-- **Next.js 15** (Turbopack)
+- **Vite** (高速ビルドツール)
 - **React 19**
 - **TypeScript 5**
 
@@ -205,7 +205,7 @@ others-project/
 ├── apps/
 │   ├── api/          # NestJS APIサーバー
 │   ├── mobile/       # React Native モバイルアプリ
-│   └── web/          # Next.js Webアプリ
+│   └── web/          # Vite+React Webアプリ
 ├── packages/
 │   ├── types/        # 共有型定義
 │   ├── ui/           # UI コンポーネント

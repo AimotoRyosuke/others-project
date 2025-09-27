@@ -27,7 +27,7 @@ services:
       - "3008:3000"
     environment:
       - NODE_ENV=development
-      - NEXT_PUBLIC_API_URL=http://localhost:4008
+      - VITE_API_URL=http://localhost:4008
     volumes:
       - .:/app
       - /app/node_modules

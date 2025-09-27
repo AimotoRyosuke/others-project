@@ -5,7 +5,7 @@
       "path": "."
     },
     {
-      "name": "Web (Next.js)",
+      "name": "Web (Vite+React)",
       "path": "./apps/web"
     },
     {
@@ -27,14 +27,12 @@
     "search.exclude": {
       "**/node_modules": true,
       "**/dist": true,
-      "**/.next": true,
       "**/coverage": true,
       "**/.nyc_output": true
     },
     "files.watcherExclude": {
       "**/node_modules/**": true,
       "**/dist/**": true,
-      "**/.next/**": true
     }
   },
   "extensions": {

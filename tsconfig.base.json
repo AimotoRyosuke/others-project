@@ -12,7 +12,7 @@
     "baseUrl": ".",
     "paths": {
       "@others/types": ["./packages/types/src"],
-      "@others/ui": ["./packages/ui/src"],
+      "@others/design-tokens": ["./packages/design-tokens/src"],
       "@others/validation": ["./packages/validation/src"],
       "@others/utils": ["./packages/utils/src"],
       "@others/config": ["./packages/config"]
