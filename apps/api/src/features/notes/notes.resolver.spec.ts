@@ -117,7 +117,9 @@ describe('NotesResolver', () => {
       jest
         .spyOn(prismaService.privateNote, 'findMany')
         .mockResolvedValue([mockNote]);
-      jest.spyOn(postsService, 'formatPost').mockReturnValue(mockFormattedPost as any);
+      jest
+        .spyOn(postsService, 'formatPost')
+        .mockReturnValue(mockFormattedPost as any);
 
       const result = await resolver.myNotes(mockContext);
 
@@ -161,7 +163,9 @@ describe('NotesResolver', () => {
       jest
         .spyOn(prismaService.privateNote, 'create')
         .mockResolvedValue(mockNote);
-      jest.spyOn(postsService, 'formatPost').mockReturnValue(mockFormattedPost as any);
+      jest
+        .spyOn(postsService, 'formatPost')
+        .mockReturnValue(mockFormattedPost as any);
 
       const result = await resolver.addNote(input, mockContext);
 
