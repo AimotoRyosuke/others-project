@@ -28,6 +28,11 @@
       "inputs": ["$TURBO_DEFAULT$", "jest.config.*", "vitest.config.*"],
       "outputs": ["coverage/**"]
     },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "jest.config.*", "vitest.config.*"],
+      "outputs": ["coverage/**"]
+    },
     "clean": {
       "cache": false
     },
