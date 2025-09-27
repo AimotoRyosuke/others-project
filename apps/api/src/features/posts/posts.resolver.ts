@@ -18,15 +18,6 @@ export class PostsResolver {
     private readonly userService: UserService,
   ) {}
 
-  // 既存のCRUD操作（テスト互換性のため）
-  @Mutation(() => Post)
-  createPost(
-    @Args('createPostInput') createPostInput: CreatePostInput,
-    @Args('authorId') authorId: string,
-  ) {
-    return this.postsService.create(createPostInput, authorId);
-  }
-
   @Query(() => [Post], { name: 'posts' })
   findAll() {
     return this.postsService.findAll();
@@ -42,18 +33,16 @@ export class PostsResolver {
     return this.postsService.remove(id);
   }
 
-  // GraphQL API
-
   // 認証不要 - 他人タブのフィード
   @Query(() => PostConnection, { name: 'feed' })
   async feed(@Args() args: FeedArgs): Promise<PostConnection> {
     return this.postsService.getFeed(args);
   }
 
-  // 認証必要 - 投稿作成（GraphQL版）
-  @Mutation(() => Post, { name: 'createPostGraphQL' })
+  // 認証必要 - 投稿作成
+  @Mutation(() => Post, { name: 'createPost' })
   @UseGuards(AuthGuard)
-  async createPostGraphQL(
+  async createPost(
     @Args('input', { type: () => CreatePostInput }, new ValidationPipe())
     input: CreatePostInput,
     @Context() ctx: any,

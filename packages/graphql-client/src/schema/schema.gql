@@ -61,9 +61,8 @@ type Query {
 }
 
 type Mutation {
-  createPost(createPostInput: CreatePostInput!, authorId: String!): Post!
   removePost(id: ID!): Post!
-  createPostGraphQL(input: CreatePostInput!): Post!
+  createPost(input: CreatePostInput!): Post!
   react(input: ReactInput!): Reaction!
   unreact(input: ReactInput!): Boolean!
   setNickname(input: SetNicknameInput!): Me!

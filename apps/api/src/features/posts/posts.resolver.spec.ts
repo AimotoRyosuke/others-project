@@ -66,38 +66,57 @@ describe('PostsResolver', () => {
     jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
+  it('正常に定義されること', () => {
     expect(resolver).toBeDefined();
   });
 
   describe('createPost', () => {
-    it('should call postsService.create with correct parameters', async () => {
+    it('認証されたユーザーで投稿を作成できること', async () => {
       const createPostInput = {
         whatPerson: '友達',
         emotions: ['happy' as const],
         thoughts: 'テスト投稿',
       };
-      const authorId = 'user-123';
+      const mockUser = {
+        id: 'user-123',
+        firebaseUid: 'firebase-uid-123',
+        ordinal: 1,
+        nickname: 'testuser',
+      };
       const expectedPost = {
         id: 'post-123',
         whatPerson: '友達',
         emotions: ['happy'],
         thoughts: 'テスト投稿',
-        authorId,
+        authorId: mockUser.id,
         createdAt: new Date(),
       };
+      const mockContext = {
+        req: {
+          user: {
+            firebaseUid: 'firebase-uid-123',
+          },
+        },
+      };
 
-      mockPostsService.create.mockResolvedValue(expectedPost);
+      mockUserService.findOrCreateUser.mockResolvedValue(mockUser);
+      mockPostsService.createPost.mockResolvedValue(expectedPost);
 
-      const result = await resolver.createPost(createPostInput, authorId);
+      const result = await resolver.createPost(createPostInput, mockContext);
 
-      expect(service.create).toHaveBeenCalledWith(createPostInput, authorId);
+      expect(mockUserService.findOrCreateUser).toHaveBeenCalledWith(
+        'firebase-uid-123',
+      );
+      expect(mockPostsService.createPost).toHaveBeenCalledWith(
+        mockUser.id,
+        createPostInput,
+      );
       expect(result).toEqual(expectedPost);
     });
   });
 
   describe('findAll', () => {
-    it('should return array of posts', async () => {
+    it('投稿の配列が返されること', async () => {
       const expectedPosts = [
         {
           id: 'post-1',
@@ -127,7 +146,7 @@ describe('PostsResolver', () => {
   });
 
   describe('findOne', () => {
-    it('should return single post by id', async () => {
+    it('IDで指定された単一の投稿が返されること', async () => {
       const postId = 'post-123';
       const expectedPost = {
         id: postId,
@@ -148,7 +167,7 @@ describe('PostsResolver', () => {
   });
 
   describe('removePost', () => {
-    it('should remove post by id', async () => {
+    it('IDで指定された投稿を削除できること', async () => {
       const postId = 'post-123';
       const expectedPost = {
         id: postId,
