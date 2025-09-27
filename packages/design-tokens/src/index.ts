@@ -142,18 +142,11 @@ export const breakpoints = {
   '2xl': '1536px',
 } as const;
 
-// Export all tokens
-export const designTokens = {
-  colors,
-  typography,
-  spacing,
-  borderRadius,
-  shadows,
-  zIndex,
-  breakpoints,
-} as const;
-
-export type DesignTokens = typeof designTokens;
+// Export type definitions
 export type Colors = typeof colors;
 export type Typography = typeof typography;
 export type Spacing = typeof spacing;
+export type BorderRadius = typeof borderRadius;
+export type Shadows = typeof shadows;
+export type ZIndex = typeof zIndex;
+export type Breakpoints = typeof breakpoints;

@@ -119,9 +119,12 @@ yarn lint
 ```typescript
 // 利用可能な型
 import type { 
-  DesignTokens, 
   Colors, 
   Typography, 
-  Spacing 
+  Spacing,
+  BorderRadius,
+  Shadows,
+  ZIndex,
+  Breakpoints
 } from '@others/design-tokens';
 ```
