@@ -16,7 +16,7 @@ export const colors = {
     800: '#3730a3',
     900: '#312e81',
   },
-  
+
   // Neutral colors
   neutral: {
     50: '#fafafa',
@@ -30,18 +30,18 @@ export const colors = {
     800: '#262626',
     900: '#171717',
   },
-  
+
   // Emotion colors (感情に対応)
   emotions: {
-    happy: '#fbbf24',    // 嬉しい - yellow
-    sad: '#60a5fa',      // 悲しい - blue
-    lonely: '#a78bfa',   // 寂しい - purple
-    fun: '#34d399',      // 楽しい - green
-    angry: '#f87171',    // 怒り - red
-    scary: '#6b7280',    // 怖い - gray
-    amazing: '#fb7185',  // すごい - pink
+    happy: '#fbbf24', // 嬉しい - yellow
+    sad: '#60a5fa', // 悲しい - blue
+    lonely: '#a78bfa', // 寂しい - purple
+    fun: '#34d399', // 楽しい - green
+    angry: '#f87171', // 怒り - red
+    scary: '#6b7280', // 怖い - gray
+    amazing: '#fb7185', // すごい - pink
   },
-  
+
   // Semantic colors
   success: '#10b981',
   warning: '#f59e0b',
@@ -56,14 +56,14 @@ export const typography = {
     mono: ['Fira Code', 'ui-monospace', 'SFMono-Regular', 'monospace'],
   },
   fontSize: {
-    xs: '0.75rem',     // 12px
-    sm: '0.875rem',    // 14px
-    base: '1rem',      // 16px
-    lg: '1.125rem',    // 18px
-    xl: '1.25rem',     // 20px
-    '2xl': '1.5rem',   // 24px
+    xs: '0.75rem', // 12px
+    sm: '0.875rem', // 14px
+    base: '1rem', // 16px
+    lg: '1.125rem', // 18px
+    xl: '1.25rem', // 20px
+    '2xl': '1.5rem', // 24px
     '3xl': '1.875rem', // 30px
-    '4xl': '2.25rem',  // 36px
+    '4xl': '2.25rem', // 36px
   },
   fontWeight: {
     normal: '400',
@@ -81,29 +81,29 @@ export const typography = {
 // Spacing
 export const spacing = {
   0: '0',
-  1: '0.25rem',   // 4px
-  2: '0.5rem',    // 8px
-  3: '0.75rem',   // 12px
-  4: '1rem',      // 16px
-  5: '1.25rem',   // 20px
-  6: '1.5rem',    // 24px
-  8: '2rem',      // 32px
-  10: '2.5rem',   // 40px
-  12: '3rem',     // 48px
-  16: '4rem',     // 64px
-  20: '5rem',     // 80px
-  24: '6rem',     // 96px
+  1: '0.25rem', // 4px
+  2: '0.5rem', // 8px
+  3: '0.75rem', // 12px
+  4: '1rem', // 16px
+  5: '1.25rem', // 20px
+  6: '1.5rem', // 24px
+  8: '2rem', // 32px
+  10: '2.5rem', // 40px
+  12: '3rem', // 48px
+  16: '4rem', // 64px
+  20: '5rem', // 80px
+  24: '6rem', // 96px
 } as const;
 
 // Border radius
 export const borderRadius = {
   none: '0',
-  sm: '0.125rem',   // 2px
-  base: '0.25rem',  // 4px
-  md: '0.375rem',   // 6px
-  lg: '0.5rem',     // 8px
-  xl: '0.75rem',    // 12px
-  '2xl': '1rem',    // 16px
+  sm: '0.125rem', // 2px
+  base: '0.25rem', // 4px
+  md: '0.375rem', // 6px
+  lg: '0.5rem', // 8px
+  xl: '0.75rem', // 12px
+  '2xl': '1rem', // 16px
   full: '9999px',
 } as const;
 

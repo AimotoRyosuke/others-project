@@ -50,13 +50,18 @@ function App() {
           他人のままでいい。繋がらないことが美しい。
         </p>
       </header>
-      
+
       <main style={mainStyle}>
-        <p style={{ fontSize: typography.fontSize.base, color: colors.neutral[600] }}>
+        <p
+          style={{
+            fontSize: typography.fontSize.base,
+            color: colors.neutral[600],
+          }}
+        >
           アプリケーションをここに実装していきます
         </p>
         <div className="counter">
-          <button 
+          <button
             style={buttonStyle}
             onClick={() => setCount((count) => count + 1)}
             onMouseOver={(e) => {
@@ -69,13 +74,20 @@ function App() {
             count is {count}
           </button>
         </div>
-        
+
         {/* Design Tokens の例を表示 */}
         <div style={{ marginTop: spacing[8], textAlign: 'center' }}>
           <h3 style={{ marginBottom: spacing[4], color: colors.neutral[700] }}>
             感情の色
           </h3>
-          <div style={{ display: 'flex', gap: spacing[3], flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: spacing[3],
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
             {Object.entries(colors.emotions).map(([emotion, color]) => (
               <div
                 key={emotion}

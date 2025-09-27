@@ -8,11 +8,12 @@
     "build": "tsc -b",
     "clean": "rm -rf dist .tsbuildinfo",
     "type-check": "tsc --noEmit",
-    "lint": "eslint 'src/**/*.{ts}' --report-unused-disable-directives",
+    "lint": "eslint src --ext .ts --report-unused-disable-directives",
     "lint:js-check": "eslint '**/*.{js,jsx}' --report-unused-disable-directives",
     "dev": "tsc -b --watch"
   },
   "devDependencies": {
+    "eslint": "^9.36.0",
     "typescript": "^5"
   }
 }

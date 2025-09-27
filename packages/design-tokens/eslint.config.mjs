@@ -1,15 +1,15 @@
 // @ts-check
-import { reactConfig } from '../../eslint.config.mjs';
+import { nodeConfig } from '../../eslint.config.mjs';
 
 export default [
-  ...reactConfig,
+  ...nodeConfig,
   {
     files: ['src/**/*.{ts,tsx}'],
     rules: {
-      // UI コンポーネント固有のルール
+      // デザイントークン固有のルール
       '@typescript-eslint/no-explicit-any': 'warn',
-      'react/prop-types': 'off',
-      'react/react-in-jsx-scope': 'off',
+      // オブジェクトの定数定義で使用するため許可
+      'prefer-const': 'off',
     },
   },
 ];
