@@ -3,6 +3,7 @@
 ## 🐳 Docker環境での開発
 
 ### 1. 前提条件
+
 - Docker と Docker Compose がインストール済み
 - Git でプロジェクトをクローン済み
 
@@ -37,10 +38,12 @@ Password: password
 ### 5. 開発時の注意点
 
 #### ホットリロード
+
 - ソースコードの変更は自動的に反映されます
 - `apps/web/` や `apps/api/src/` の変更を監視
 
 #### ログの確認
+
 ```bash
 # すべてのサービスのログを表示
 docker compose -f docker-compose.dev.yml logs
@@ -52,6 +55,7 @@ docker compose -f docker-compose.dev.yml logs db
 ```
 
 #### データベースの操作
+
 ```bash
 # PostgreSQL コンテナに接続
 docker compose -f docker-compose.dev.yml exec db psql -U postgres -d othersdb
@@ -73,6 +77,7 @@ docker compose -f docker-compose.dev.yml up --build
 ### 6. トラブルシューティング
 
 #### ポートが使用中の場合
+
 ```bash
 # 使用中のポートを確認
 lsof -i :3008
@@ -84,6 +89,7 @@ kill -9 <PID>
 ```
 
 #### コンテナの完全リセット
+
 ```bash
 # 全てのコンテナとボリュームを削除
 docker compose -f docker-compose.dev.yml down -v --remove-orphans
@@ -96,7 +102,7 @@ docker system prune -a
 `docker-compose.yml` を参照して、以下の項目を実装予定：
 
 - [ ] Vite production build
-- [ ] NestJS production build  
+- [ ] NestJS production build
 - [ ] 環境変数の適切な管理
 - [ ] セキュリティ設定
 - [ ] ログ設定

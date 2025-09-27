@@ -1,241 +1,183 @@
-# Others Project Monorepo
+# Others Project
 
-他人アプリケーションのmonorepo構成プロジェクトです。
+> 他人の感情を理解し、つながりを深めるプラットフォーム
 
-## 🏗️ プロジェクト構成
+## � 概要
 
-このプロジェクトは、Yarn Workspaces + Turborepoを使用したmonorepo構成で、複数のアプリケーショ## 🔧 開発ガイドライン
+Others Projectは、日常の出来事を通じて他人の感情を理解し、共感を育むソーシャルプラットフォームです。
+Yarn Workspaces + Turborepoを使用したmonorepo構成で、Web・Mobile・APIが統合された開発環境を提供します。
 
-### 新しいパッケージの追加
+### 🎯 主な機能
 
-新しい共有パッケージを追加する場合：
+- 📝 日常の体験投稿・共有
+- 💭 感情分析・可視化
+- 🤝 共感・つながり機能
+- 📊 感情の統計・分析
 
-1. `packages/` ディレクトリに新しいフォルダを作成
-2. `@others/` スコープでパッケージ名を設定
-3. `tsconfig.base.json` にパスマッピングを追加
-4. 他のアプリケーションで `workspace:*` として依存関係を追加
-
-### 依存関係の管理
-
-```bash
-# ルートに共通依存関係を追加
-yarn add -D typescript eslint prettier
-
-# 特定のワークスペースに依存関係を追加
-yarn workspace @others/web add vite
-yarn workspace @others/api add @nestjs/common
-
-# ワークスペース間の依存関係
-yarn workspace @others/web add @others/types@workspace:*
-```
-
-### コーディング規約
-
-- ESLint と Prettier の設定に従う
-- **JavaScript ファイルは禁止** - TypeScript のみ使用
-- コミット前に `yarn lint` と `yarn format` を実行
-- TypeScript の strict モードを使用
-
-### Yarn Workspaces の特徴
-
-- 共通依存関係はルートで一元管理
-- `workspace:*` プロトコルでワークスペース間参照
-- ホイスティングによる効率的な依存関係管理
-- Turborepo と組み合わせた高速ビルド・テストます。
+## 🏗️ アーキテクチャ
 
 ### 📱 アプリケーション (`apps/`)
 
-- **`@others/web`** - Vite + React 19ベースのWebアプリケーション
-- **`@others/api`** - NestJSベースのAPIサーバー
-- **`@others/mobile`** - React Native（Expo）ベースのモバイルアプリ
+| パッケージ       | 技術スタック                    | 役割                |
+| ---------------- | ------------------------------- | ------------------- |
+| `@others/web`    | Vite + React 19                 | Webアプリケーション |
+| `@others/api`    | NestJS 11 + Prisma + PostgreSQL | GraphQL APIサーバー |
+| `@others/mobile` | React Native + Expo             | モバイルアプリ      |
 
-### 📦 共有パッケージ (`packages/`)
+### 📦 共有ライブラリ (`packages/`)
 
-- **`@others/types`** - TypeScript型定義の共有パッケージ
-- **`@others/design-tokens`** - デザイントークン定義（色、フォント、スペーシングなど）
-- **`@others/validation`** - Zodベースのバリデーションスキーマ
+| パッケージ                | 役割               | 主要技術                     |
+| ------------------------- | ------------------ | ---------------------------- |
+| `@others/types`           | TypeScript型定義   | GraphQL、ドメイン型          |
+| `@others/validation`      | データ検証         | Zod                          |
+| `@others/design-tokens`   | デザインシステム   | 色、フォント、スペーシング   |
+| `@others/ui`              | UIコンポーネント   | React/React Native           |
+| `@others/graphql-client`  | GraphQLクライアント | Apollo Client                |
+| `@others/utils`           | ユーティリティ     | 共通関数・ヘルパー           |
+| `@others/config`          | 開発設定           | ESLint、Prettier、TypeScript |
 
-## 🚀 クイックスタート
+## 🛠️ 開発ルール
 
-### 必要な環境
+> **重要**: 開発前に必ず [`DEVELOPMENT_RULES.md`](./DEVELOPMENT_RULES.md) を確認してください
 
-- Node.js 18以上
-- Yarn 4以上（推奨）
-- Docker & Docker Compose（Dockerを使用する場合）
+### 必須ルール
 
-### ローカル開発
+1. **共通化の徹底**: 2つ以上のアプリで使用されるコードは `packages/` に配置
+2. **テスト実装**: 全機能にテスト実装必須（カバレッジ: packages 80%以上、apps 70%以上、api 85%以上）
+3. **Storybookでのコンポーネント管理**: 再利用可能なUIコンポーネントは必ずStorybook対応
+4. **開発完了チェック**: `yarn test && yarn lint && yarn type-check && yarn build` を必ず実行
 
-#### 1. 通常のインストール・起動
+## 🚀 セットアップ
+
+### 必要環境
+
+- **Node.js**: 18以上
+- **Yarn**: 4以上（推奨）
+- **Docker**: 開発環境用（オプション）
+
+### クイックスタート
+
+#### 方法1: ローカル開発
 
 ```bash
-# Yarn Workspacesを使用
+# 1. 依存関係のインストール
 yarn install
 
-# 全アプリケーションの開発サーバーを並列起動
+# 2. 開発サーバーの起動
 yarn dev
+
+# 3. データベースセットアップ（初回のみ）
+yarn workspace @others/api db:push
+yarn workspace @others/api db:seed
 ```
 
-#### 2. Docker環境での起動
+#### 方法2: Docker開発環境
 
 ```bash
-# 開発環境での起動（ホットリロード対応）
+# 1. Docker環境起動（ホットリロード対応）
 ./start.sh dev
-# または
-docker compose -f docker-compose.dev.yml up --build
 
-# 初回起動後、データベースのセットアップ
+# 2. データベースセットアップ（初回のみ）
 ./setup-db.sh
-
-# 本番環境での起動（TODO: 未実装）
-# ./start.sh prod
 ```
 
-**Prismaデータベース管理:**
+### アクセスURL
+
+| サービス | URL                     | 説明                  |
+| -------- | ----------------------- | --------------------- |
+| Web      | <http://localhost:3008> | Reactアプリケーション |
+| API      | <http://localhost:4008> | GraphQL Playground    |
+| Database | `localhost:5438`        | PostgreSQL (docker)   |
+
+### データベース管理
+
 ```bash
-# スキーマの適用
+# スキーマ適用
 yarn workspace @others/api db:push
 
-# マイグレーションの作成・実行
-yarn workspace @others/api db:migrate
-
-# シードデータの投入
+# シードデータ投入
 yarn workspace @others/api db:seed
 
-# Prisma Studio（データベース管理GUI）
+# Prisma Studio起動
 yarn workspace @others/api db:studio
 ```
 
-**Docker開発環境でのポート:**
+## 🧪 開発コマンド
 
-- Web (Vite+React): http://localhost:3008
-- API (NestJS): http://localhost:4008  
-- Database (PostgreSQL): localhost:5438
-
-**データベース接続情報:**
-- Host: localhost
-- Port: 5438
-- Database: othersdb
-- User: postgres
-- Password: password
-
-### ビルド
+### 基本コマンド
 
 ```bash
-# 全パッケージをビルド
+# 開発サーバー起動
+yarn dev
+
+# 全体ビルド
 yarn build
+
+# テスト実行
+yarn test
+
+# 品質チェック
+yarn lint              # ESLint
+yarn type-check        # TypeScript
+yarn format           # Prettier
 ```
 
-## 📋 利用可能なスクリプト
-
-### 全プロジェクト実行（Turbo使用）
-
-| スクリプト              | 説明                             |
-| ----------------------- | -------------------------------- |
-| `yarn dev`              | 全アプリの開発サーバーを起動     |
-| `yarn build`            | 全パッケージをビルド             |
-| `yarn lint`             | ESLintによるコード品質チェック   |
-| `yarn test`             | テストの実行                     |
-| `yarn type-check`       | TypeScriptの型チェック           |
-| `yarn format`           | Prettierによるコードフォーマット |
-| `yarn clean`            | ビルドファイルのクリーンアップ   |
-
-### 個別プロジェクト実行
+### 個別実行例
 
 ```bash
-# Webアプリケーション
-yarn workspace @others/web run dev
-yarn workspace @others/web run build
-yarn workspace @others/web run type-check
+# 特定パッケージでの実行
+yarn workspace @others/web dev
+yarn workspace @others/api test
 
-# APIサーバー
-yarn workspace @others/api run dev
-yarn workspace @others/api run test
-yarn workspace @others/api run build
-
-# モバイルアプリ
-yarn workspace @others/mobile run dev
-yarn workspace @others/mobile run start
-```
-
-### フィルター実行（Turbo）
-
-```bash
-# 特定のワークスペースのみでビルド
-yarn turbo run build --filter=@others/web
-yarn turbo run test --filter=@others/api
-
-# 依存関係を含めて実行
+# Turborepoフィルター実行
 yarn turbo run build --filter=@others/web...
+yarn turbo run test --filter=@others/api
+```
+
+### 依存関係管理
+
+```bash
+# パッケージ追加
+yarn workspace @others/web add react-router-dom
+yarn workspace @others/api add @nestjs/jwt
+
+# ワークスペース間依存
+yarn workspace @others/web add @others/types@workspace:*
 ```
 
 ## 🛠️ 技術スタック
 
-### フロントエンド
+| カテゴリ   | 技術                                         |
+| ---------- | -------------------------------------------- |
+| **Web**    | Vite, React 19, TypeScript 5                 |
+| **API**    | NestJS 11, Prisma, PostgreSQL 17, GraphQL    |
+| **Mobile** | React Native, Expo                           |
+| **認証**   | Firebase Admin SDK                           |
+| **開発**   | Yarn Workspaces, Turborepo, ESLint, Prettier |
+| **テスト** | Jest, React Testing Library, Playwright      |
 
-- **Vite** (高速ビルドツール)
-- **React 19**
-- **TypeScript 5**
-
-### バックエンド
-
-- **NestJS 11**
-- **Prisma** - データベースORM
-- **PostgreSQL 17**
-- **Firebase Admin**
-- **TypeScript 5**
-
-### モバイル
-
-- **React Native**
-- **Expo**
-- **TypeScript 5**
-
-### 開発ツール
-
-- **Yarn Workspaces** - パッケージ管理・依存関係管理
-- **Turborepo** - モノレポタスク実行・キャッシュ
-- **ESLint** - コード品質・JavaScript禁止設定
-- **Prettier** - コードフォーマット
-- **TypeScript** - 型安全性（JavaScript禁止）
-
-## 📁 ディレクトリ構造
+## � ディレクトリ構造
 
 ```text
 others-project/
-├── apps/
-│   ├── api/          # NestJS APIサーバー
-│   ├── mobile/       # React Native モバイルアプリ
-│   └── web/          # Vite+React Webアプリ
-├── packages/
-│   ├── types/        # 共有型定義
-│   ├── ui/           # UI コンポーネント
-│   └── validation/   # バリデーションスキーマ
-├── .yarn/            # Yarn キャッシュ（Git除外）
-├── .yarnrc.yml       # Yarn設定
-├── package.json      # ルート設定・Workspaces定義
-├── yarn.lock         # 依存関係ロック
-├── turbo.json        # Turborepo設定
-├── tsconfig.base.json # TypeScript基本設定
-└── README.md
+├── apps/                    # アプリケーション層
+│   ├── web/                # Webアプリ (Vite + React)
+│   ├── api/                # APIサーバー (NestJS)
+│   └── mobile/             # モバイルアプリ (React Native)
+├── packages/               # 共有ライブラリ層
+│   ├── types/              # 型定義
+│   ├── validation/         # バリデーション
+│   ├── design-tokens/      # デザインシステム
+│   ├── ui/                 # UIコンポーネント
+│   ├── graphql-client/     # GraphQLクライアント
+│   ├── utils/              # ユーティリティ
+│   └── config/             # 開発設定
+└── 設定ファイル群
+    ├── turbo.json          # Turborepo設定
+    ├── tsconfig.base.json  # TypeScript基本設定
+    └── package.json        # Workspaces定義
 ```
-
-## 🔧 開発ガイドライン
-
-### パッケージの追加
-
-新しい共有パッケージを追加する場合：
-
-1. `packages/` ディレクトリに新しいフォルダを作成
-2. `@others/` スコープでパッケージ名を設定
-3. `tsconfig.base.json` にパスマッピングを追加
-4. 必要に応じて他のアプリケーションで依存関係を追加
-
-### コードスタイル
-
-- ESLint と Prettier の設定に従う
-- コミット前に `yarn lint` と `yarn format` を実行
-- TypeScript の strict モードを使用
 
 ## 📄 ライセンス
 
-非公開プロジェクト
+非公開プロジェクト - 無断複製・配布を禁止します。

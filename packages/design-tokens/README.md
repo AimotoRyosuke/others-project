@@ -71,7 +71,7 @@ const emotionBadges = Object.entries(colors.emotions).map(([emotion, color]) => 
 - **Neutral**: グレースケール
 - **Emotions**: 感情に対応した色
   - `happy`: 黄色 - 嬉しい
-  - `sad`: 青色 - 悲しい  
+  - `sad`: 青色 - 悲しい
   - `lonely`: 紫色 - 寂しい
   - `fun`: 緑色 - 楽しい
   - `angry`: 赤色 - 怒り
@@ -118,13 +118,13 @@ yarn lint
 
 ```typescript
 // 利用可能な型
-import type { 
-  Colors, 
-  Typography, 
+import type {
+  Colors,
+  Typography,
   Spacing,
   BorderRadius,
   Shadows,
   ZIndex,
-  Breakpoints
+  Breakpoints,
 } from '@others/design-tokens';
 ```

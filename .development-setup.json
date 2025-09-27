@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "test:watch": "turbo run test:watch",
+    "storybook": "turbo run storybook",
+    "storybook:build": "turbo run storybook:build",
+    "test-storybook": "turbo run test-storybook"
+  },
+  "devDependencies": {
+    "@storybook/cli": "^8.0.0",
+    "jest": "^30.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "playwright": "^1.40.0"
+  }
+}
