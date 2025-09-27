@@ -1,0 +1,92 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Me {
+  id: ID!
+  ordinal: Int!
+  nickname: String
+  createdAt: String!
+}
+
+type Post {
+  id: ID!
+  whatPerson: String!
+  thoughts: String
+  emotions: [String!]!
+  createdAt: String!
+  updatedAt: String!
+  reactionCount: Int!
+  hasUserReacted: Boolean!
+}
+
+type Reaction {
+  id: ID!
+  postId: ID!
+  type: String!
+  createdAt: String!
+}
+
+type PrivateNote {
+  id: ID!
+  postId: ID!
+  body: String!
+  createdAt: String!
+  post: Post!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+}
+
+type PostEdge {
+  node: Post!
+  cursor: String!
+}
+
+type PostConnection {
+  edges: [PostEdge!]!
+  pageInfo: PageInfo!
+}
+
+type Query {
+  posts: [Post!]!
+  post(id: ID!): Post!
+  feed(after: String, first: Float = 20, emotionsAny: [String!]): PostConnection!
+  myPosts(after: String, first: Float = 20): PostConnection!
+  myReactions(after: String, first: Float = 20): PostConnection!
+  me: Me!
+  myNotes: [PrivateNote!]!
+}
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!, authorId: String!): Post!
+  removePost(id: ID!): Post!
+  createPostGraphQL(input: CreatePostInput!): Post!
+  react(input: ReactInput!): Reaction!
+  unreact(input: ReactInput!): Boolean!
+  setNickname(input: SetNicknameInput!): Me!
+  addNote(input: AddNoteInput!): PrivateNote!
+  deleteNote(noteId: String!): Boolean!
+}
+
+input CreatePostInput {
+  whatPerson: String!
+  thoughts: String
+  emotions: [String!]!
+}
+
+input ReactInput {
+  postId: String!
+  type: String!
+}
+
+input SetNicknameInput {
+  nickname: String!
+}
+
+input AddNoteInput {
+  postId: String!
+  body: String!
+}
